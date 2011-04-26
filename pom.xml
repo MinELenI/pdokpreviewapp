@@ -5,13 +5,36 @@
 	<artifactId>previewapp</artifactId>
 	<packaging>war</packaging>
 	<version>0.1-SNAPSHOT</version>
-	<name>previewapp Maven Webapp</name>
-	<url>http://maven.apache.org</url>
+	<name>PDOK services preview applicatie</name>
+	<url>http://geodata.nationaalgeoregister.nl/</url>
 	<inceptionYear>2011</inceptionYear>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<site.dir>file://${java.io.tmpdir}/maven-sites/${project.artifactId}</site.dir>
 	</properties>
+	<scm>
+		<connection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</connection>
+		<developerConnection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</developerConnection>
+		<url>https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</url>
+		<tag>trunk</tag>
+	</scm>
+	<developers>
+		<developer>
+			<id>mprins</id>
+			<name>Mark Prins</name>
+		</developer>
+	</developers>
+	<distributionManagement>
+		<repository>
+			<id>local-releases</id>
+			<uniqueVersion>false</uniqueVersion>
+			<name>local release repository</name>
+			<url>file://C:/mavenreleases-repository/</url>
+		</repository>
+	</distributionManagement>
+	<organization>
+		<name>PDOK development team</name>
+	</organization>
 	<profiles>
 		<profile>
 			<id>developer</id>
@@ -59,6 +82,13 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<extensions>
+			<extension>
+				<groupId>org.jvnet.wagon-svn</groupId>
+				<artifactId>wagon-svn</artifactId>
+				<version>1.9</version>
+			</extension>
+		</extensions>
 		<finalName>previewapp</finalName>
 		<defaultGoal>install</defaultGoal>
 		<plugins>
