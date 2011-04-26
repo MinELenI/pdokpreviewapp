@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nl.pdok</groupId>
 	<artifactId>previewapp</artifactId>
 	<packaging>war</packaging>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.1</version>
 	<name>PDOK services preview applicatie</name>
 	<url>http://geodata.nationaalgeoregister.nl/</url>
 	<inceptionYear>2011</inceptionYear>
@@ -13,9 +12,9 @@
 		<site.dir>file://${java.io.tmpdir}/maven-sites/${project.artifactId}</site.dir>
 	</properties>
 	<scm>
-		<connection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</connection>
-		<developerConnection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</developerConnection>
-		<url>https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</url>
+		<connection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/tags/previewapp-0.1</connection>
+		<developerConnection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/tags/previewapp-0.1</developerConnection>
+		<url>https://svn.code.sf.net/p/pdokpreviewapp/code/tags/previewapp-0.1</url>
 		<tag>trunk</tag>
 	</scm>
 	<developers>
@@ -58,8 +57,7 @@
 									<maxIdleTime>60000</maxIdleTime>
 								</connector>
 							</connectors>
-							<webAppConfig
-								implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
+							<webAppConfig implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
 								<sessionHandler implementation="org.mortbay.jetty.servlet.SessionHandler">
 									<sessionManager implementation="org.mortbay.jetty.servlet.HashSessionManager">
 										<usingCookies>false</usingCookies>
