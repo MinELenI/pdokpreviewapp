@@ -1,0 +1,6 @@
+/* pseudo json. 1 service per regel. */
+naam=Beschermdenatuurmonumenten ;url=http://acceptatie.geodata.nationaalgeoregister.nl/beschermdenatuurmonumenten/ows; type=wms; layers=beschermdenatuurmonumenten
+naam=Wetlands; url=http://acceptatie.geodata.nationaalgeoregister.nl/wetlands/ows; type=wms; layers=wetlands
+naam=Nationaleparken; url=http://acceptatie.geodata.nationaalgeoregister.nl/nationaleparken/ows;layers=nationaleparken;type=wms
+naam=gazetteer; url=http://acceptatie.geodata.nationaalgeoregister.nl/geocoder; type=ols
+naam=Bestuurlijke Grenzen; url=http://acceptatie.geodata.nationaalgeoregister.nl/bestuurlijkegrenzen/ows;layers=bestuurlijkegrenzen:top10nlprovinciegrenzen,bestuurlijkegrenzen:top10nlnationalegrenzen,bestuurlijkegrenzen:gemeenten,bestuurlijkegrenzen:wijken,bestuurlijkegrenzen:buurten;type=wms

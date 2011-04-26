@@ -1,0 +1,12 @@
+.capsPanel {
+	font-family: monospace;
+}
+
+.uitleg {
+	font-family: sans-serif;
+}
+
+.uitleg p {
+	margin-top: 4px;
+	font: normal 11px arial, tahoma, helvetica, sans-serif;
+}

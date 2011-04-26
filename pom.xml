@@ -1,0 +1,111 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>nl.pdok</groupId>
+	<artifactId>previewapp</artifactId>
+	<packaging>war</packaging>
+	<version>0.1-SNAPSHOT</version>
+	<name>previewapp Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<inceptionYear>2011</inceptionYear>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<site.dir>file://${java.io.tmpdir}/maven-sites/${project.artifactId}</site.dir>
+	</properties>
+	<profiles>
+		<profile>
+			<id>developer</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties />
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.mortbay.jetty</groupId>
+						<artifactId>maven-jetty-plugin</artifactId>
+						<version>6.1.26</version>
+						<configuration>
+							<scanIntervalSeconds>3</scanIntervalSeconds>
+							<stopKey>jetty-stop</stopKey>
+							<stopPort>9999</stopPort>
+							<connectors>
+								<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+									<port>8020</port>
+									<maxIdleTime>60000</maxIdleTime>
+								</connector>
+							</connectors>
+							<webAppConfig
+								implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
+								<sessionHandler implementation="org.mortbay.jetty.servlet.SessionHandler">
+									<sessionManager implementation="org.mortbay.jetty.servlet.HashSessionManager">
+										<usingCookies>false</usingCookies>
+									</sessionManager>
+								</sessionHandler>
+							</webAppConfig>
+							<contextPath>/${project.build.finalName}</contextPath>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>previewapp</finalName>
+		<defaultGoal>install</defaultGoal>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<warSourceExcludes>map.js, previewapp.css</warSourceExcludes>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							<addClasspath>true</addClasspath>
+						</manifest>
+						<manifestEntries>
+							<Implementation-Build>branch: ${buildScmBranch} rev: ${buildNumber}</Implementation-Build>
+							<SCM-Revision>${scm.revision}</SCM-Revision>
+							<url>${project.url}</url>
+							<release>${project.version}</release>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>yuicompressor-maven-plugin</artifactId>
+				<version>1.1</version>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>compress</goal>
+						</goals>
+						<configuration>
+							<force>true</force>
+							<nosuffix>true</nosuffix>
+							<failOnWarning>false</failOnWarning>
+							<excludes>
+								<exclude>**/ext-3.3.1/**</exclude>
+								<exclude>**/GeoExt-1.0/**</exclude>
+								<exclude>**/OpenLayers-trunk/**</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
