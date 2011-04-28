@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nl.pdok</groupId>
-	<artifactId>previewapp</artifactId>
+	<artifactId>pdokpreviewapp</artifactId>
 	<packaging>war</packaging>
 	<version>0.2-SNAPSHOT</version>
 	<name>PDOK services preview applicatie</name>
@@ -22,6 +22,10 @@
 			<name>Mark Prins</name>
 		</developer>
 	</developers>
+	<ciManagement>
+		<system>CruiseControl</system>
+		<url>http://dbr0425s.dbr.agro.nl:8080/dashboard/tab/build/detail/pdokpreviewapp</url>
+	</ciManagement>
 	<distributionManagement>
 		<repository>
 			<id>local-releases</id>
@@ -29,6 +33,11 @@
 			<name>local release repository</name>
 			<url>file://C:/mavenreleases-repository/</url>
 		</repository>
+		<site>
+			<id>developer-site</id>
+			<name>developer site</name>
+			<url>file://${site.dir.dev}</url>
+		</site>
 	</distributionManagement>
 	<organization>
 		<name>PDOK development team</name>
@@ -39,7 +48,9 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-			<properties />
+			<properties>
+				<site.dir.dev>C:\temp\maven-sites\pdokpreviewapp</site.dir.dev>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -64,6 +75,25 @@
 								</sessionHandler>
 							</webAppConfig>
 							<contextPath>/${project.build.finalName}</contextPath>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>cruisecontrol</id>
+			<properties>
+				<site.dir.gis>E:\maven-sites\pdokpreviewapp</site.dir.gis>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>tomcat-maven-plugin</artifactId>
+						<version>1.0</version>
+						<configuration>
+							<url>http://dbr4029v.dbr.agro.nl:8020/manager</url>
+							<server>dbr4029v</server>
 						</configuration>
 					</plugin>
 				</plugins>
