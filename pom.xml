@@ -12,9 +12,9 @@
 		<site.dir>file://${java.io.tmpdir}/maven-sites/${project.artifactId}</site.dir>
 	</properties>
 	<scm>
-		<connection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</connection>
-		<developerConnection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</developerConnection>
-		<url>https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</url>
+		<connection>scm:svn:https://svn.code.sf.net/p/${project.artifactId}/code/trunk</connection>
+		<developerConnection>scm:svn:https://svn.code.sf.net/p/${project.artifactId}/code/trunk</developerConnection>
+		<url>https://svn.code.sf.net/p/${project.artifactId}/code/trunk</url>
 	</scm>
 	<developers>
 		<developer>
@@ -24,7 +24,7 @@
 	</developers>
 	<ciManagement>
 		<system>CruiseControl</system>
-		<url>http://dbr0425s.dbr.agro.nl:8080/dashboard/tab/build/detail/pdokpreviewapp</url>
+		<url>http://dbr0425s.dbr.agro.nl:8080/dashboard/tab/build/detail/${project.artifactId}</url>
 	</ciManagement>
 	<distributionManagement>
 		<repository>
@@ -49,7 +49,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<site.dir.dev>C:\temp\maven-sites\pdokpreviewapp</site.dir.dev>
+				<site.dir.dev>C:\temp\maven-sites\${project.artifactId}</site.dir.dev>
 			</properties>
 			<build>
 				<plugins>
@@ -83,7 +83,7 @@
 		<profile>
 			<id>cruisecontrol</id>
 			<properties>
-				<site.dir.gis>E:\maven-sites\pdokpreviewapp</site.dir.gis>
+				<site.dir.gis>E:\maven-sites\${project.artifactId}</site.dir.gis>
 			</properties>
 			<build>
 				<plugins>
@@ -116,7 +116,7 @@
 				<version>1.9</version>
 			</extension>
 		</extensions>
-		<finalName>previewapp</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<defaultGoal>install</defaultGoal>
 		<plugins>
 			<plugin>
