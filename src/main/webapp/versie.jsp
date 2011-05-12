@@ -20,6 +20,10 @@
             Attributes atts = mf.getMainAttributes();</jsp:scriptlet>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="description" content="PDOK preview applicatie." /> 
+	<meta name="keywords" content="PDOK preview applicatie, PDOK, services, versieinformatie" />
+	<link rel="shortcut icon" href="static/img/favicon.ico" /> 
+	<link rel="stylesheet" type="text/css" href="static/ext-3.3.1/resources/css/ext-all.css" />
 	<link rel="stylesheet" href="static/css/style.css" type="text/css" media="all" />
 
 	<!--[if lte IE 7]>
@@ -37,13 +41,6 @@
 	</head>
 	<jsp:body>
 	
-	
-	<div id="geozetContent" class="start">
-
-		<div id="geozetArticle">
-
-			<div id="geozetCore">
-	
 	<h1><jsp:expression>atts.getValue("Implementation-Title")</jsp:expression></h1>
 	<hr />
 	Versie: <jsp:expression>atts.getValue("Implementation-Version")</jsp:expression>
@@ -59,22 +56,6 @@
 	<br />
 	Java Servlet API <jsp:expression>getServletContext().getMajorVersion()</jsp:expression>.<jsp:expression>getServletContext().getMinorVersion()</jsp:expression>
 	
-				</div>
-	
-		</div>
-
-		<div id="geozetAside">
-
-
-			<div id="geozetAsideCore"></div>
-			
-			<div id="geozetAsideEnhanced" class="hidden">
-			
-			</div>
-
-		</div>
-
-</div>
 	</jsp:body>
 	</html>
 </jsp:root>
