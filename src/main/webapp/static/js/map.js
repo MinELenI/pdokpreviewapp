@@ -5,15 +5,16 @@ OpenLayers.ProxyHost = 'proxy.jsp?';
  * toevoegen van untiled WMS aan de kaart.
  */
 function addWMS(conf) {
-	console.debug('adding layer: ', conf.naam);
+	OpenLayers.Console.debug('adding layer: ', conf.naam);
 	if (conf.layers.length > 1) {
 		// meer dan 1 layer voor deze WMS
 		for ( var ly = 0; ly < conf.layers.length; ly++) {
-			var lyr = new OpenLayers.Layer.WMS.Untiled(conf.naam + ':'
+			var lyr = new OpenLayers.Layer.WMS(conf.naam + ':'
 					+ conf.layers[ly], conf.url, {
 				layers : conf.layers[ly],
 				transparent : true,
-				format : 'image/png'
+				format : 'image/png',
+				singleTile : true
 			}, {
 				isBaseLayer : false,
 				visibility : false
@@ -22,10 +23,11 @@ function addWMS(conf) {
 		}
 	} else {
 		// 1 layer voor deze WMS
-		var lyr = new OpenLayers.Layer.WMS.Untiled(conf.naam, conf.url, {
+		var lyr = new OpenLayers.Layer.WMS(conf.naam, conf.url, {
 			layers : conf.layers,
 			transparent : true,
-			format : 'image/png'
+			format : 'image/png',
+			singleTile : true
 		}, {
 			isBaseLayer : false,
 			visibility : false
@@ -35,15 +37,18 @@ function addWMS(conf) {
 }
 
 function addWFS(conf) {
-	console.debug('could be adding ' + conf.type + 'layer: ', conf.naam);
+	OpenLayers.Console.debug('could be adding ' + conf.type + 'layer: ',
+			conf.naam);
 }
 
 function addWMTS(conf) {
-	console.debug('could be adding ' + conf.type + 'layer: ', conf.naam);
+	OpenLayers.Console.debug('could be adding ' + conf.type + 'layer: ',
+			conf.naam);
 }
 
 function addOLS(conf) {
-	console.debug('could be adding ' + conf.type + 'layer: ', conf.naam);
+	OpenLayers.Console.debug('could be adding ' + conf.type + 'layer: ',
+			conf.naam);
 }
 /** map panel. */
 var mapPanel;
@@ -59,7 +64,7 @@ var activeLyr = {
 };
 
 function getCapabilities(layer) {
-	// console.debug(tabs, capsPanel);
+	// OpenLayers.Console.debug(tabs, capsPanel);
 	tabs.activate(capsPanel);
 	var url = layer.getFullRequestString({
 		"REQUEST" : "GetCapabilities"
@@ -135,7 +140,7 @@ Ext
 					});
 
 			// services datastore
-			console.debug('Laden van configuratie json.');
+			// OpenLayers.Console.debug('Laden van configuratie json.');
 			var servicesStore = new Ext.data.JsonStore({
 				url : 'serviceinfo.js.jsp',
 				autoLoad : true,
@@ -149,11 +154,12 @@ Ext
 				} ],
 				listeners : {
 					load : function(servicesStore, records, options) {
-						console.debug('Klaar met laden configuratie json');
-						// console.debug('records loaded: ' +
+						OpenLayers.Console
+								.debug('Klaar met laden configuratie json');
+						// OpenLayers.Console.debug('records loaded: ' +
 						// servicesStore.getCount());
 						servicesStore.each(function(s) {
-							console.log('data: ', s.data);
+							// OpenLayers.Console.log('data: ', s.data);
 							// service in de kaart zetten
 							switch (s.data.type) {
 							case 'wms':
@@ -169,18 +175,19 @@ Ext
 								addOLS(s.data);
 								break;
 							default:
-								console.error('Onbekend type: ', s.data.type);
+								OpenLayers.Console.error('Onbekend type: ',
+										s.data.type);
 							}
 						});
 					},
 					exception : function(proxy, type, action, exception) {
-						// console.debug('proxy: ', proxy);
-						// console.debug('type: ', type);
-						// console.debug('action: ', action);
-						console.error('Fout: ', exception);
+						// OpenLayers.Console.debug('proxy: ', proxy);
+						// OpenLayers.Console.debug('type: ', type);
+						// OpenLayers.Console.debug('action: ', action);
+						OpenLayers.Console.error('Fout: ', exception);
 					},
 					beforeload : function(servicesStore, options) {
-						// console.debug('options: ', options);
+						// OpenLayers.Console.debug('options: ', options);
 					}
 				},
 				sortInfo : {
@@ -198,7 +205,7 @@ Ext
 			featureInfo.events
 					.on({
 						getfeatureinfo : function(event) {
-							console.debug('event: ', event);
+							OpenLayers.Console.debug('event: ', event);
 							new GeoExt.Popup({
 								title : "Feature info voor layer: "
 										+ activeLyr.name
@@ -219,10 +226,11 @@ Ext
 						beforegetfeatureinfo : function(event) {
 						},
 						exception : function(event) {
-							console.error('feature info fout: ', event.error);
+							OpenLayers.Console.error('feature info fout: ',
+									event.error);
 						},
 						nogetfeatureinfo : function(event) {
-							console
+							OpenLayers.Console
 									.warning('Er is geen databron voor feature informatie.');
 						}
 					});
@@ -269,22 +277,21 @@ Ext
 				collapsible : true,
 				collapseMode : "mini",
 				autoScroll : true,
-				plugins : [ new GeoExt.plugins.TreeNodeRadioButton(
-						{
-							listeners : {
-								"radiochange" : function(node) {
-									featureInfo.deactivate();
-									console.info(node.text
-											+ " is nu de actieve laag.");
-									// console.debug('node:', node);
-									// info control
-									activeLyr.name = node.text;
-									activeLyr.url = node.layer.url;
-									featureInfo.url = activeLyr.url;
-									featureInfo.activate();
-								}
-							}
-						}) ],
+				plugins : [ new GeoExt.plugins.TreeNodeRadioButton({
+					listeners : {
+						"radiochange" : function(node) {
+							featureInfo.deactivate();
+							OpenLayers.Console.info(node.text
+									+ " is nu de actieve laag.");
+							// OpenLayers.Console.debug('node:', node);
+							// info control
+							activeLyr.name = node.text;
+							activeLyr.url = node.layer.url;
+							featureInfo.url = activeLyr.url;
+							featureInfo.activate();
+						}
+					}
+				}) ],
 				loader : new Ext.tree.TreeLoader({
 					// applyLoader has to be set to false to not
 					// interfer with loaders
@@ -306,13 +313,14 @@ Ext
 				},
 				listeners : {
 					"radiochange" : function(node) {
-						console.log(node.layer.name
+						OpenLayers.Console.log(node.layer.name
 								+ " is now the the active layer.");
 						activeLyr.name = node.layer.name;
 						activeLyr.url = node.layer.url;
 					},
 					"click" : function(node, event) {
-						console.debug(node.layer.name + " was clicked", node);
+						OpenLayers.Console.debug(node.layer.name
+								+ " was clicked", node);
 						getCapabilities(node.layer);
 					}
 				},
