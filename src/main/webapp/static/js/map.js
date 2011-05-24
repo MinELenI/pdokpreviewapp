@@ -3,9 +3,11 @@ OpenLayers.Util.onImageLoadErrorColor = 'transparent';
 OpenLayers.ProxyHost = 'proxy.jsp?';
 /**
  * toevoegen van untiled WMS aan de kaart.
+ * 
+ * @param conf
+ *            mapservice config object
  */
 function addWMS(conf) {
-	OpenLayers.Console.debug('adding layer: ', conf.naam);
 	if (conf.layers.length > 1) {
 		// meer dan 1 layer voor deze WMS
 		for ( var ly = 0; ly < conf.layers.length; ly++) {
@@ -13,11 +15,12 @@ function addWMS(conf) {
 					+ conf.layers[ly], conf.url, {
 				layers : conf.layers[ly],
 				transparent : true,
-				format : 'image/png',
-				singleTile : true
+				format : 'image/png'
 			}, {
 				isBaseLayer : false,
-				visibility : false
+				visibility : false,
+				singleTile : true,
+				transitionEffect : 'resize'
 			});
 			mapPanel.map.addLayer(lyr);
 		}
@@ -26,30 +29,55 @@ function addWMS(conf) {
 		var lyr = new OpenLayers.Layer.WMS(conf.naam, conf.url, {
 			layers : conf.layers,
 			transparent : true,
-			format : 'image/png',
-			singleTile : true
+			format : 'image/png'
 		}, {
 			isBaseLayer : false,
-			visibility : false
+			visibility : false,
+			singleTile : true,
+			transitionEffect : 'resize'
 		});
 		mapPanel.map.addLayer(lyr);
 	}
 }
 
 function addWFS(conf) {
-	OpenLayers.Console.debug('could be adding ' + conf.type + 'layer: ',
-			conf.naam);
+	OpenLayers.Console.error('Niet geimplementeerd: toevoegen WFS: '
+			+ conf.type + 'layer: ', conf.naam);
 }
 
+/**
+ * toevoegen van de WMTS laag aan de kaart, uitgangspunt is opmaak volgens de
+ * Nederlandse tiling richtlijn (13 levels in RD).
+ * 
+ * @param conf
+ *            mapservice config object
+ */
 function addWMTS(conf) {
-	OpenLayers.Console.debug('could be adding ' + conf.type + 'layer: ',
-			conf.naam);
+	var matrixIds = new Array(13);
+	for ( var i = 0; i < 13; ++i) {
+		matrixIds[i] = "EPSG:28992:" + i;
+	}
+
+	var lyr = new OpenLayers.Layer.WMTS({
+		name : conf.naam,
+		url : conf.url,
+		layer : conf.layers,
+		matrixSet : 'EPSG:28992',
+		matrixIds : matrixIds,
+		format : 'image/png8',
+		style : '_null',
+		opacity : 0.65,
+		isBaseLayer : false,
+		visibility : false
+	});
+	mapPanel.map.addLayer(lyr);
 }
 
 function addOLS(conf) {
-	OpenLayers.Console.debug('could be adding ' + conf.type + 'layer: ',
-			conf.naam);
+	OpenLayers.Console.error('Niet geimplementeerd: toevoegen OLS: '
+			+ conf.type + 'layer: ', conf.naam);
 }
+
 /** map panel. */
 var mapPanel;
 /** capabilities panel. */
@@ -60,15 +88,31 @@ var tabs;
 /** active/selected layer. */
 var activeLyr = {
 	name : '',
-	url : ''
+	url : '',
+	layer : ''
 };
 
+/**
+ * capabilities (of wat daar voor door gaat) document voor de layer ophalen.
+ * 
+ * @param layer
+ *            een OpenLayers.Layer type
+ */
 function getCapabilities(layer) {
-	// OpenLayers.Console.debug(tabs, capsPanel);
+	var url = '';
+	if (typeof layer == 'undefined') {
+		return;
+	} else if (layer.CLASS_NAME === 'OpenLayers.Layer.TMS') {
+		// TMS is een bijzonder geval
+		url = layer.getFullRequestString() + layer.serviceVersion;
+	} else {
+		// zou moeten werken voor alle OWS
+		url = layer.getFullRequestString({
+			"REQUEST" : "GetCapabilities"
+		});
+	}
+
 	tabs.activate(capsPanel);
-	var url = layer.getFullRequestString({
-		"REQUEST" : "GetCapabilities"
-	});
 	var updtr = capsPanel.getUpdater();
 	updtr.setRenderer({
 		/* override render; bepaalde char's worden vervangen door html entities */
@@ -89,6 +133,7 @@ function getCapabilities(layer) {
 	});
 }
 
+// na laden van de pagina starten met opbouw van applicatie
 Ext
 		.onReady(function() {
 			// mappanel
@@ -119,13 +164,21 @@ Ext
 						region : "center",
 						border : true,
 						title : "Kaart",
-						layers : [ new OpenLayers.Layer.TMS(
-								"BRT Achtergrondkaart (TMS)",
-								"http://test.geodata.nationaalgeoregister.nl/tms/",
-								{
-									layername : 'brtachtergrondkaart',
-									type : 'png8'
-								}) ],
+						layers : [
+								new OpenLayers.Layer.TMS(
+										"BRT Achtergrondkaart (TMS)",
+										"http://test.geodata.nationaalgeoregister.nl/tiles/service/tms/",
+										{
+											layername : 'brtachtergrondkaart',
+											type : 'png8'
+										}),
+								new OpenLayers.Layer.TMS(
+										"Top10NL (TMS)",
+										"http://test.geodata.nationaalgeoregister.nl/tiles/service/tms/",
+										{
+											layername : 'top10nl',
+											type : 'png8'
+										}) ],
 						items : [ {
 							xtype : "gx_zoomslider",
 							vertical : true,
@@ -140,7 +193,6 @@ Ext
 					});
 
 			// services datastore
-			// OpenLayers.Console.debug('Laden van configuratie json.');
 			var servicesStore = new Ext.data.JsonStore({
 				url : 'serviceinfo.js.jsp',
 				autoLoad : true,
@@ -154,12 +206,7 @@ Ext
 				} ],
 				listeners : {
 					load : function(servicesStore, records, options) {
-						OpenLayers.Console
-								.debug('Klaar met laden configuratie json');
-						// OpenLayers.Console.debug('records loaded: ' +
-						// servicesStore.getCount());
 						servicesStore.each(function(s) {
-							// OpenLayers.Console.log('data: ', s.data);
 							// service in de kaart zetten
 							switch (s.data.type) {
 							case 'wms':
@@ -181,13 +228,7 @@ Ext
 						});
 					},
 					exception : function(proxy, type, action, exception) {
-						// OpenLayers.Console.debug('proxy: ', proxy);
-						// OpenLayers.Console.debug('type: ', type);
-						// OpenLayers.Console.debug('action: ', action);
 						OpenLayers.Console.error('Fout: ', exception);
-					},
-					beforeload : function(servicesStore, options) {
-						// OpenLayers.Console.debug('options: ', options);
 					}
 				},
 				sortInfo : {
@@ -196,18 +237,19 @@ Ext
 				}
 			});
 
-			// feature info control
+			// WMS feature info control
 			var featureInfo = new OpenLayers.Control.WMSGetFeatureInfo({
-				url : activeLyr.url,
+				// url : activeLyr.url,
+				drillDown : false,
+				queryVisible : true,
 				maxFeatures : 20
 			});
 
 			featureInfo.events
 					.on({
 						getfeatureinfo : function(event) {
-							OpenLayers.Console.debug('event: ', event);
 							new GeoExt.Popup({
-								title : "Feature info voor layer: "
+								title : "WMS Feature info voor layer: "
 										+ activeLyr.name
 										+ ", ("
 										+ mapPanel.map
@@ -223,18 +265,46 @@ Ext
 								html : event.text
 							}).show();
 						},
-						beforegetfeatureinfo : function(event) {
-						},
-						exception : function(event) {
-							OpenLayers.Console.error('feature info fout: ',
-									event.error);
-						},
 						nogetfeatureinfo : function(event) {
 							OpenLayers.Console
-									.warning('Er is geen databron voor feature informatie.');
+									.error('Er is geen databron voor feature informatie.');
 						}
 					});
 			mapPanel.map.addControl(featureInfo);
+
+			// WMTS feature info control
+			var wmtsfeatureInfo = new OpenLayers.Control.WMTSGetFeatureInfo({
+				drillDown : false,
+				queryVisible : true,
+				maxFeatures : 20
+			});
+
+			wmtsfeatureInfo.events
+					.on({
+						getfeatureinfo : function(event) {
+							new GeoExt.Popup({
+								title : "WMTS Feature info voor layer: "
+										+ activeLyr.name
+										+ ", ("
+										+ mapPanel.map
+												.getLonLatFromPixel(event.xy)
+										+ ")",
+								width : 500,
+								height : 150,
+								autoScroll : true,
+								maximizable : true,
+								modal : true,
+								map : mapPanel.map,
+								location : event.xy,
+								html : event.text
+							}).show();
+						},
+						nogetfeatureinfo : function(event) {
+							OpenLayers.Console
+									.error('Er is geen databron voor feature informatie.');
+						}
+					});
+			mapPanel.map.addControl(wmtsfeatureInfo);
 
 			// layer tree
 			var LayerNodeUI = Ext.extend(GeoExt.tree.LayerNodeUI,
@@ -268,65 +338,74 @@ Ext
 			} ], true);
 
 			// create the tree with the configuration from above
-			tree = new Ext.tree.TreePanel({
-				border : true,
-				region : "west",
-				title : "Services",
-				width : 200,
-				split : true,
-				collapsible : true,
-				collapseMode : "mini",
-				autoScroll : true,
-				plugins : [ new GeoExt.plugins.TreeNodeRadioButton({
-					listeners : {
-						"radiochange" : function(node) {
-							featureInfo.deactivate();
-							OpenLayers.Console.info(node.text
-									+ " is nu de actieve laag.");
-							// OpenLayers.Console.debug('node:', node);
-							// info control
-							activeLyr.name = node.text;
-							activeLyr.url = node.layer.url;
-							featureInfo.url = activeLyr.url;
-							featureInfo.activate();
-						}
-					}
-				}) ],
-				loader : new Ext.tree.TreeLoader({
-					// applyLoader has to be set to false to not
-					// interfer with loaders
-					// of nodes further down the tree hierarchy
-					applyLoader : false,
-					uiProviders : {
-						"layernodeui" : LayerNodeUI
-					}
-				}),
-				root : {
-					nodeType : "async",
-					// the children property of an
-					// Ext.tree.AsyncTreeNode is used to
-					// provide an initial set of layer nodes. We use the
-					// treeConfig
-					// from above, that we created with
-					// OpenLayers.Format.JSON.write.
-					children : Ext.decode(treeConfig)
-				},
-				listeners : {
-					"radiochange" : function(node) {
-						OpenLayers.Console.log(node.layer.name
-								+ " is now the the active layer.");
-						activeLyr.name = node.layer.name;
-						activeLyr.url = node.layer.url;
-					},
-					"click" : function(node, event) {
-						OpenLayers.Console.debug(node.layer.name
-								+ " was clicked", node);
-						getCapabilities(node.layer);
-					}
-				},
-				rootVisible : false,
-				lines : false
-			});
+			tree = new Ext.tree.TreePanel(
+					{
+						border : true,
+						region : "west",
+						title : "Services",
+						width : 200,
+						split : true,
+						collapsible : true,
+						collapseMode : "mini",
+						autoScroll : true,
+						plugins : [ new GeoExt.plugins.TreeNodeRadioButton(
+								{
+									listeners : {
+										"radiochange" : function(node) {
+											featureInfo.deactivate();
+											wmtsfeatureInfo.deactivate();
+											// OpenLayers.Console
+											// .info(node.text
+											// + " is nu de actieve laag.");
+											// info control
+											activeLyr.name = node.text;
+											activeLyr.url = node.layer.url;
+											activeLyr.layer = node.layer;
+											// test voor type en juiste
+											// control activeren
+											if (node.layer.CLASS_NAME === 'OpenLayers.Layer.WMTS') {
+												wmtsfeatureInfo.activate();
+											} else if (node.layer.CLASS_NAME === 'OpenLayers.Layer.WMS') {
+												// featureInfo.url =
+												// activeLyr.url;
+												featureInfo.layer = activeLyr.layer;
+												featureInfo.activate();
+											}
+										}
+									}
+								}) ],
+						loader : new Ext.tree.TreeLoader({
+							// applyLoader has to be set to false to not
+							// intefer with loaders
+							// of nodes further down the tree hierarchy
+							applyLoader : false,
+							uiProviders : {
+								"layernodeui" : LayerNodeUI
+							}
+						}),
+						root : {
+							nodeType : "async",
+							// the children property of an
+							// Ext.tree.AsyncTreeNode is used to
+							// provide an initial set of layer nodes. We use the
+							// treeConfig
+							// from above, that we created with
+							// OpenLayers.Format.JSON.write.
+							children : Ext.decode(treeConfig)
+						},
+						listeners : {
+							"radiochange" : function(node) {
+								activeLyr.name = node.layer.name;
+								activeLyr.url = node.layer.url;
+								activeLyr.layer = node.layer;
+							},
+							"click" : function(node, event) {
+								getCapabilities(node.layer);
+							}
+						},
+						rootVisible : false,
+						lines : false
+					});
 
 			var legendPanel = new GeoExt.LegendPanel({
 				defaults : {
@@ -344,6 +423,14 @@ Ext
 				html : 'Capabilities van geselecteerde service.'
 			});
 
+			var versiePanel = new Ext.Panel({
+				title : 'Versie',
+				bodyStyle : 'padding:5px',
+				cls : 'versiePanel',
+				autoScroll : true,
+				autoLoad : 'versie.jsp'
+			});
+
 			tabs = new Ext.TabPanel({
 				activeTab : 0,
 				region : 'south',
@@ -352,7 +439,7 @@ Ext
 				split : true,
 				height : 200,
 				bodyStyle : 'padding:5px',
-				items : [ legendPanel, capsPanel ]
+				items : [ legendPanel, capsPanel, versiePanel ]
 			});
 
 			new Ext.Viewport({

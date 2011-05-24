@@ -1,6 +1,11 @@
-/* pseudo json. 1 service per regel. */
+/* pseudo json. 1 service per regel; het resultaat wordt op naam gesorteerd
+       naam=  ;url=  ;layers=  ;type= */
 naam=Beschermdenatuurmonumenten ;url=http://acceptatie.geodata.nationaalgeoregister.nl/beschermdenatuurmonumenten/ows; type=wms; layers=beschermdenatuurmonumenten
 naam=Wetlands; url=http://acceptatie.geodata.nationaalgeoregister.nl/wetlands/ows; type=wms; layers=wetlands
+naam=Natura 2000; url=http://acceptatie.geodata.nationaalgeoregister.nl/natura2000/ows; type=wms; layers=natura2000
 naam=Nationaleparken; url=http://acceptatie.geodata.nationaalgeoregister.nl/nationaleparken/ows;layers=nationaleparken;type=wms
 naam=gazetteer; url=http://acceptatie.geodata.nationaalgeoregister.nl/geocoder; type=ols
 naam=Bestuurlijke Grenzen; url=http://acceptatie.geodata.nationaalgeoregister.nl/bestuurlijkegrenzen/ows;layers=bestuurlijkegrenzen:top10nlprovinciegrenzen,bestuurlijkegrenzen:top10nlnationalegrenzen,bestuurlijkegrenzen:gemeenten,bestuurlijkegrenzen:wijken,bestuurlijkegrenzen:buurten;type=wms
+naam=Top10NL WMTS; url=http://geodata.nationaalgeoregister.nl/tiles/service/wmts/top10nl;layers=top10nl;type=wmts
+naam=Natura2000 WMTS; url=http://geodata.nationaalgeoregister.nl/tiles/service/wmts/natura2000;layers=natura2000;type=wmts
+/* geen lege regels hierna */
