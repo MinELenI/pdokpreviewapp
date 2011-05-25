@@ -15,6 +15,7 @@
     try {
         String reqUrl = request.getQueryString();
         reqUrl = URLDecoder.decode(reqUrl, "UTF-8");
+        log("DEBUG: request voor url: "+reqUrl);
         boolean allowed = false;
         String token = null;
         for (String surl : serverUrls) {
