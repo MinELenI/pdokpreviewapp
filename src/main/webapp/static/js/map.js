@@ -136,6 +136,7 @@ function getCapabilities(layer) {
 // na laden van de pagina starten met opbouw van applicatie
 Ext
 		.onReady(function() {
+
 			// mappanel
 			mapPanel = new GeoExt.MapPanel(
 					{
@@ -425,7 +426,8 @@ Ext
 				bodyStyle : 'padding:5px',
 				cls : 'versiePanel',
 				autoScroll : true,
-				autoLoad : 'versie.jsp'
+				autoLoad : 'versie.jsp',
+				closable : true
 			});
 
 			tabs = new Ext.TabPanel({
@@ -459,4 +461,5 @@ Ext
 					} ]
 				}
 			});
+
 		});

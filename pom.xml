@@ -1,11 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nl.pdok</groupId>
 	<artifactId>pdokpreviewapp</artifactId>
 	<packaging>war</packaging>
 	<version>0.2-SNAPSHOT</version>
 	<name>PDOK services preview applicatie</name>
-	<url>http://geodata.nationaalgeoregister.nl/</url>
+	<description>Preview applicatie tbv. PDOK services.</description>
+	<url>http://sourceforge.net/p/pdokpreviewapp/home/</url>
 	<inceptionYear>2011</inceptionYear>
 	<prerequisites>
 		<maven>3.0</maven>
@@ -23,6 +25,10 @@
 		<developer>
 			<id>mprins</id>
 			<name>Mark Prins</name>
+			<url>https://www.ohloh.net/accounts/mprins</url>
+			<roles>
+				<role>developer</role>
+			</roles>
 		</developer>
 	</developers>
 	<ciManagement>
@@ -44,6 +50,7 @@
 	</distributionManagement>
 	<organization>
 		<name>PDOK development team</name>
+		<url>http://geodata.nationaalgeoregister.nl/</url>
 	</organization>
 	<profiles>
 		<profile>
@@ -70,7 +77,8 @@
 									<maxIdleTime>60000</maxIdleTime>
 								</connector>
 							</connectors>
-							<webAppConfig implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
+							<webAppConfig
+								implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
 								<sessionHandler implementation="org.mortbay.jetty.servlet.SessionHandler">
 									<sessionManager implementation="org.mortbay.jetty.servlet.HashSessionManager">
 										<usingCookies>false</usingCookies>
@@ -148,6 +156,8 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.1.1</version>
 				<configuration>
+					<!-- onderstaande worden gecomprimeerd voordat ze in de .war terecht 
+						komen -->
 					<warSourceExcludes>map.js, ie-8.css, is.css, print.css, style.css</warSourceExcludes>
 					<archive>
 						<manifest>
@@ -179,6 +189,7 @@
 							<nosuffix>true</nosuffix>
 							<failOnWarning>false</failOnWarning>
 							<excludes>
+								<!-- niet comprimeren -->
 								<exclude>**/ext-3.3.1/**</exclude>
 								<exclude>**/GeoExt-1.0/**</exclude>
 								<exclude>**/OpenLayers-trunk/**</exclude>
