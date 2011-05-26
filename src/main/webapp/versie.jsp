@@ -25,6 +25,8 @@
 <link rel="shortcut icon" href="static/img/favicon.ico" />
 <link rel="stylesheet" type="text/css"
 	href="static/ext-3.3.1/resources/css/ext-all.css" />
+<link rel="stylesheet" type="text/css"
+	href="static/ext-3.3.1/resources/css/xtheme-gray.css" />	
 <link rel="stylesheet" href="static/css/style.css" type="text/css"
 	media="all" />
 <!--[if lte IE 7]>

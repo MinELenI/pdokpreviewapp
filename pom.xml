@@ -145,7 +145,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.1.1</version>
 				<configuration>
-					<warSourceExcludes>map.js, previewapp.css</warSourceExcludes>
+					<warSourceExcludes>map.js, ie-8.css, is.css, print.css, style.css</warSourceExcludes>
 					<archive>
 						<manifest>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>

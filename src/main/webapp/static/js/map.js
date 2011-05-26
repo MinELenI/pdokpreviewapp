@@ -1,6 +1,6 @@
-OpenLayers.IMAGE_RELOAD_ATTEMPTS = 2;
-OpenLayers.Util.onImageLoadErrorColor = 'transparent';
-OpenLayers.ProxyHost = 'proxy.jsp?';
+/*
+ * Ext script voor het laden van de kaart applicatie en functies van de applicatie.
+ */
 /**
  * toevoegen van untiled WMS aan de kaart.
  * 
@@ -166,16 +166,13 @@ Ext
 						title : "Kaart",
 						layers : [
 								new OpenLayers.Layer.TMS(
-										"BRT Achtergrondkaart (TMS)",
-										"http://test.geodata.nationaalgeoregister.nl/tiles/service/tms/",
-										{
+										'BRT Achtergrondkaart (TMS)',
+										BRT_ACHTERGRONDKAART_TMS_URL, {
 											layername : 'brtachtergrondkaart',
 											type : 'png8'
 										}),
-								new OpenLayers.Layer.TMS(
-										"Top10NL (TMS)",
-										"http://test.geodata.nationaalgeoregister.nl/tiles/service/tms/",
-										{
+								new OpenLayers.Layer.TMS('Top10NL (TMS)',
+										TOP10NL_TMS_URL, {
 											layername : 'top10nl',
 											type : 'png8'
 										}) ],
