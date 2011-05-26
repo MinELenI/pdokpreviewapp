@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nl.pdok</groupId>
 	<artifactId>pdokpreviewapp</artifactId>
 	<packaging>war</packaging>
-	<version>0.2-SNAPSHOT</version>
+	<version>0.2</version>
 	<name>PDOK services preview applicatie</name>
 	<description>Preview applicatie tbv. PDOK services.</description>
 	<url>http://sourceforge.net/p/pdokpreviewapp/home/</url>
@@ -17,9 +16,9 @@
 		<site.dir.dev>file://${java.io.tmpdir}/maven-sites/${project.artifactId}</site.dir.dev>
 	</properties>
 	<scm>
-		<connection>scm:svn:https://svn.code.sf.net/p/${project.artifactId}/code/trunk</connection>
-		<developerConnection>scm:svn:https://svn.code.sf.net/p/${project.artifactId}/code/trunk</developerConnection>
-		<url>https://svn.code.sf.net/p/${project.artifactId}/code/trunk</url>
+		<connection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/tags/pdokpreviewapp-0.2</connection>
+		<developerConnection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/tags/pdokpreviewapp-0.2</developerConnection>
+		<url>https://svn.code.sf.net/p/pdokpreviewapp/code/tags/pdokpreviewapp-0.2</url>
 	</scm>
 	<developers>
 		<developer>
@@ -77,8 +76,7 @@
 									<maxIdleTime>60000</maxIdleTime>
 								</connector>
 							</connectors>
-							<webAppConfig
-								implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
+							<webAppConfig implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
 								<sessionHandler implementation="org.mortbay.jetty.servlet.SessionHandler">
 									<sessionManager implementation="org.mortbay.jetty.servlet.HashSessionManager">
 										<usingCookies>false</usingCookies>
