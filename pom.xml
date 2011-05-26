@@ -7,9 +7,12 @@
 	<name>PDOK services preview applicatie</name>
 	<url>http://geodata.nationaalgeoregister.nl/</url>
 	<inceptionYear>2011</inceptionYear>
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<site.dir>file://${java.io.tmpdir}/maven-sites/${project.artifactId}</site.dir>
+		<site.dir.dev>file://${java.io.tmpdir}/maven-sites/${project.artifactId}</site.dir.dev>
 	</properties>
 	<scm>
 		<connection>scm:svn:https://svn.code.sf.net/p/${project.artifactId}/code/trunk</connection>
@@ -83,7 +86,7 @@
 		<profile>
 			<id>cruisecontrol</id>
 			<properties>
-				<site.dir.gis>E:\maven-sites\${project.artifactId}</site.dir.gis>
+				<site.dir.dev>E:\maven-sites\${project.artifactId}</site.dir.dev>
 			</properties>
 			<build>
 				<plugins>
@@ -153,7 +156,7 @@
 							<addClasspath>true</addClasspath>
 						</manifest>
 						<manifestEntries>
-							<Implementation-Build>branch: ${buildScmBranch} rev: ${buildNumber}</Implementation-Build>
+							<Implementation-Build>branch: ${buildScmBranch} dd: ${buildNumber}</Implementation-Build>
 							<SCM-Revision>${scm.revision}</SCM-Revision>
 							<url>${project.url}</url>
 							<release>${project.version}</release>
