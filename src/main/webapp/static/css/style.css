@@ -7,6 +7,10 @@
 	font: normal 11px arial, tahoma, helvetica, sans-serif;
 }
 
+.uitleg p em {
+	font-style: italic;
+}
+
 .capsPanel {
 	font-family: monospace;
 }
@@ -17,4 +21,13 @@
 
 .olsPanel {
 	
+}
+
+.notabene {
+	margin: 10px;
+	font: normal 13px sans-serif;
+}
+
+.notabene img {
+	float: left
 }

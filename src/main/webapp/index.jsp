@@ -22,17 +22,29 @@
 	media="print" />
 </head>
 <body>
+
+	<p class="notabene">
+		<img src="static/img/logo.png" alt="logo" height="48" id="logo"
+			title="logo" width="48" class="logo" />Voor deze applicatie is een
+		moderne browser met CSS en JavaScript ondersteuning nodig, het kan
+		even duren voordat de applicatie volledig is geladen.
+	</p>
 	<div id="desc" class="uitleg">
 		<h1>PDOK Preview applicatie</h1>
 		<p>Aan de linkerkant van de pagina bevindt zich een lijst met
 			services.</p>
-		<p>Een service kan "aangezet" worden met de checkbox, de legenda
-			wordt dan ook bijgewerkt.</p>
+		<p>
+			Een service kan "aangezet" worden met de checkbox, de legenda
+			(onderaan het scherm) wordt dan ook bijgewerkt (mits het type service
+			dat ondersteund). <em>Let op: Veel services zijn schaal
+				afhankelijk; WFS services worden pas zichtbaar beneden nivo 7.</em>
+		</p>
 		<p>Met de radio button kan een service "actief" worden gemaakt,
 			van een actieve service kan feature informatie worden opgevraagd.</p>
 		<p>Door een service te selecteren wordt het capabilities document
 			opgehaald en getoond</p>
 	</div>
+
 
 	<script src="static/ext-3.3.1/adapter/ext/ext-base.js"
 		type="text/javascript"></script>
