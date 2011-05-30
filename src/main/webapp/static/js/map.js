@@ -41,8 +41,49 @@ function addWMS(conf) {
 }
 
 function addWFS(conf) {
-	OpenLayers.Console.error('Niet geimplementeerd: toevoegen WFS: '
-			+ conf.type + 'layer: ', conf.naam);
+	var wfs = new OpenLayers.Layer.Vector(conf.naam, {
+		strategies : [ new OpenLayers.Strategy.BBOX() ],
+		minResolution : 0.42,
+		maxResolution : 26.880,
+		projection : new OpenLayers.Projection('EPSG:28992'),
+		protocol : new OpenLayers.Protocol.WFS({
+			url : conf.url,
+			srsName : 'EPSG:28992',
+			version : '1.1.0',
+			geometryName : 'geom',
+			featureNS : 'http://' + conf.layers + '.geonovum.nl/',
+			featureType : conf.layers,
+			featurePrefix : conf.layers,
+			// schema : conf.url
+			// +
+			// '?service=WFS&amp;version=1.1.0&amp;request=DescribeFeatureType&amp;typeName='
+			// + conf.layers + '%3A' + conf.layers,
+			ratio : 1.5
+		}),
+		// http://docs.openlayers.org/library/feature_styling.html
+		styleMap : new OpenLayers.StyleMap({
+			'default' : new OpenLayers.Style({
+				fillColor : '#ee9900',
+				fillOpacity : 0.4,
+				strokeColor : '#ee9900',
+				strokeOpacity : 0.7,
+				strokeWidth : 2,
+				pointRadius : 4,
+				graphicName : 'square'
+			}),
+			'select' : new OpenLayers.Style({
+				fillColor : '#0000ee',
+				fillOpacity : 0.4,
+				strokeColor : '#0000ee',
+				strokeOpacity : 1,
+				strokeWidth : 2,
+				pointRadius : 6,
+				graphicName : 'square'
+			})
+		}),
+		visibility : false
+	});
+	mapPanel.map.addLayer(wfs);
 }
 
 /**
@@ -73,6 +114,11 @@ function addWMTS(conf) {
 	mapPanel.map.addLayer(lyr);
 }
 
+/**
+ * toevoegen van een formulier aan de tabstrip om adres te kunnen zoeken.
+ * 
+ * @param conf
+ */
 function addOLS(conf) {
 	OpenLayers.Console.error('Niet geimplementeerd: toevoegen OLS: '
 			+ conf.type + 'layer: ', conf.naam);
@@ -99,15 +145,19 @@ var activeLyr = {
  *            een OpenLayers.Layer type
  */
 function getCapabilities(layer) {
-	var url = '';
+	var url = OpenLayers.ProxyHost + '';
 	if (typeof layer == 'undefined') {
 		return;
 	} else if (layer.CLASS_NAME === 'OpenLayers.Layer.TMS') {
 		// TMS is een bijzonder geval
-		url = layer.getFullRequestString() + layer.serviceVersion;
+		url += layer.getFullRequestString() + layer.serviceVersion;
+	} else if (layer.CLASS_NAME === 'OpenLayers.Layer.Vector') {
+		// WFS/Vector is ook een bijzonder geval
+		url += layer.protocol.url + '?REQUEST=GetCapabilities&VERSION='
+				+ layer.protocol.version;
 	} else {
 		// zou moeten werken voor alle OWS
-		url = layer.getFullRequestString({
+		url += layer.getFullRequestString({
 			"REQUEST" : "GetCapabilities"
 		});
 	}
