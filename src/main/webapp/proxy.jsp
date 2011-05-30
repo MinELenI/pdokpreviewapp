@@ -6,6 +6,7 @@
             //For ex. (secured server): "http://myserver.mycompany.com/arcgis/rest/services,ayn2C2iPvqjeqWoXwV6rjmr43kyo23mhIPnXz2CEiMA6rVu0xR0St8gKsd0olv8a"
             //For ex. (non-secured server): "http://sampleserver1.arcgisonline.com/arcgis/rest/services"
             "http://localhost:8080",
+            "http://www.openrouteservice.org/",
             "http://ontwikkel.geodata.nationaalgeoregister.nl/",
             "http://test.geodata.nationaalgeoregister.nl/",
             "http://acceptatie.geodata.nationaalgeoregister.nl/",
