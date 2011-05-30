@@ -83,6 +83,32 @@ function addWFS(conf) {
 		}),
 		visibility : false
 	});
+
+	wfs.events
+			.on({
+				featureselected : function(event) {
+					// tabel met de feature info maken
+					var html = '<table class="attribuuttabel"><thead><th><td>attribuut<td><td>waarde<td></th></thead><tbody>';
+					for ( var prop in event.feature.attributes) {
+						html += '<tr><td>' + prop + '</td><td>'
+								+ event.feature.attributes[prop] + '</td></tr>';
+					}
+					html += '</tbody></table>';
+
+					new GeoExt.Popup({
+						title : "Feature info voor layer: " + activeLyr.name,
+						width : 500,
+						height : 150,
+						autoScroll : true,
+						maximizable : true,
+						modal : true,
+						map : mapPanel.map,
+						// feature selected heeft geen event.xy
+						location : new OpenLayers.Pixel(500, 170),
+						html : html
+					}).show();
+				}
+			});
 	mapPanel.map.addLayer(wfs);
 }
 
@@ -118,6 +144,7 @@ function addWMTS(conf) {
  * toevoegen van een formulier aan de tabstrip om adres te kunnen zoeken.
  * 
  * @param conf
+ *            mapservice config object
  */
 function addOLS(conf) {
 	OpenLayers.Console.error('Niet geimplementeerd: toevoegen OLS: '
@@ -152,11 +179,12 @@ function getCapabilities(layer) {
 		// TMS is een bijzonder geval
 		url += layer.getFullRequestString() + layer.serviceVersion;
 	} else if (layer.CLASS_NAME === 'OpenLayers.Layer.Vector') {
-		// WFS/Vector is ook een bijzonder geval
+		// WFS/Vector is ook een bijzonder geval, layer.protocol.url is geen API
+		// property dus opletten bij migratie OpenLayers versie
 		url += layer.protocol.url + '?REQUEST=GetCapabilities&VERSION='
 				+ layer.protocol.version;
 	} else {
-		// zou moeten werken voor alle OWS
+		// zou moeten werken voor alle andere OWS
 		url += layer.getFullRequestString({
 			"REQUEST" : "GetCapabilities"
 		});
@@ -284,34 +312,52 @@ Ext
 					direction : 'DESC'
 				}
 			});
+			// WFS feat info
+			var selectControl = new OpenLayers.Control.SelectFeature(
+			// new OpenLayers.Layer.Vector("dummy", {
+			// features : [],
+			// isBaseLayer : true,
+			// map : mapPanel.map,
+			// displayInLayerSwitcher : false
+			// })
+			[], {
+				clickout : true
+			});
+			mapPanel.map.addControl(selectControl);
 
 			// WMS feature info control
 			var featureInfo = new OpenLayers.Control.WMSGetFeatureInfo({
 				// url : activeLyr.url,
 				drillDown : false,
 				queryVisible : true,
-				maxFeatures : 20
+				maxFeatures : 20,
+				infoFormat : 'text/html'
 			});
 
 			featureInfo.events
 					.on({
 						getfeatureinfo : function(event) {
-							new GeoExt.Popup({
-								title : "WMS Feature info voor layer: "
-										+ activeLyr.name
-										+ ", ("
-										+ mapPanel.map
-												.getLonLatFromPixel(event.xy)
-										+ ")",
-								width : 500,
-								height : 150,
-								autoScroll : true,
-								maximizable : true,
-								modal : true,
-								map : mapPanel.map,
-								location : event.xy,
-								html : event.text
-							}).show();
+							new GeoExt.Popup(
+									{
+										title : "WMS Feature info voor layer: "
+												+ activeLyr.name
+												+ ", ("
+												+ mapPanel.map
+														.getLonLatFromPixel(event.xy)
+												+ ")",
+										width : 500,
+										height : 150,
+										autoScroll : true,
+										maximizable : true,
+										modal : true,
+										map : mapPanel.map,
+										location : event.xy,
+										// geoserver geeft altijd een html doc
+										// terug dus dit komt eigenlijk niet
+										// voor
+										html : (event.text === "" ? "Er zijn geen objecten in de kaart gevonden"
+												: event.text)
+									}).show();
 						},
 						nogetfeatureinfo : function(event) {
 							OpenLayers.Console
@@ -324,32 +370,40 @@ Ext
 			var wmtsfeatureInfo = new OpenLayers.Control.WMTSGetFeatureInfo({
 				drillDown : false,
 				queryVisible : true,
-				maxFeatures : 20
+				maxFeatures : 20,
+				infoFormat : 'text/html'
 			});
 
 			wmtsfeatureInfo.events
 					.on({
 						getfeatureinfo : function(event) {
-							new GeoExt.Popup({
-								title : "WMTS Feature info voor layer: "
-										+ activeLyr.name
-										+ ", ("
-										+ mapPanel.map
-												.getLonLatFromPixel(event.xy)
-										+ ")",
-								width : 500,
-								height : 150,
-								autoScroll : true,
-								maximizable : true,
-								modal : true,
-								map : mapPanel.map,
-								location : event.xy,
-								html : event.text
-							}).show();
+							new GeoExt.Popup(
+									{
+										title : "WMTS Feature info voor layer: "
+												+ activeLyr.name
+												+ ", ("
+												+ mapPanel.map
+														.getLonLatFromPixel(event.xy)
+												+ ")",
+										width : 500,
+										height : 150,
+										autoScroll : true,
+										maximizable : true,
+										modal : true,
+										map : mapPanel.map,
+										location : event.xy,
+										// geoserver geeft altijd een html doc
+										// terug dus dit komt eigenlijk niet
+										// voor
+										html : (event.text === "" ? "Er zijn geen objecten in de kaart gevonden"
+												: event.text)
+									}).show();
 						},
-						nogetfeatureinfo : function(event) {
+						exception : function(event) {
 							OpenLayers.Console
-									.error('Er is geen databron voor feature informatie.');
+									.error(
+											'Er is geen databron voor feature informatie of er is een andere fout opgetreden.',
+											error);
 						}
 					});
 			mapPanel.map.addControl(wmtsfeatureInfo);
@@ -402,9 +456,10 @@ Ext
 										"radiochange" : function(node) {
 											featureInfo.deactivate();
 											wmtsfeatureInfo.deactivate();
-											// OpenLayers.Console
-											// .info(node.text
-											// + " is nu de actieve laag.");
+											selectControl.deactivate();
+											// console.debug(node.text
+											// + "is nu de actieve laag.",
+											// node.layer);
 											// info control
 											activeLyr.name = node.text;
 											activeLyr.url = node.layer.url;
@@ -413,6 +468,10 @@ Ext
 											// control activeren
 											if (node.layer.CLASS_NAME === 'OpenLayers.Layer.WMTS') {
 												wmtsfeatureInfo.activate();
+											} else if (node.layer.CLASS_NAME === 'OpenLayers.Layer.Vector') {
+												selectControl
+														.setLayer([ activeLyr.layer ]);
+												selectControl.activate();
 											} else if (node.layer.CLASS_NAME === 'OpenLayers.Layer.WMS') {
 												// featureInfo.url =
 												// activeLyr.url;

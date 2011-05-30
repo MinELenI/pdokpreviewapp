@@ -29,5 +29,15 @@
 }
 
 .notabene img {
-	float: left
+	float: left;
+}
+
+.attribuuttabel {
+	border: 1px;
+}
+
+.attribuuttabel td {
+	border: 1px;
+	border-color: #000000;
+	padding: 2px
 }
