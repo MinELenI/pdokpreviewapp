@@ -45,7 +45,8 @@
 <body>
 	<div id="versie_info" class="uitleg">
 		<h1><jsp:expression>atts.getValue("Implementation-Title")</jsp:expression></h1>
-		<p>
+		<p><img src="static/img/logo.png" alt="logo" height="48" id="logo"
+			title="logo" width="48" class="logo" />
 			Versie:
 			<jsp:expression>atts.getValue("Implementation-Version")</jsp:expression>
 		</p>
