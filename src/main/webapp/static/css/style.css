@@ -70,7 +70,7 @@
 
 .olControlLoadingPanel {
 	background-image:
-		url(../ext-3.3.1/resources/images/default/tree/loading.gif);
+		url(http://extjs.cachefly.net/ext-3.3.1/resources/images/default/tree/loading.gif);
 	background-repeat: no-repeat;
 	background-color: #E8E8E8;
 	background-position: 5px;

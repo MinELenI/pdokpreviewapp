@@ -24,9 +24,9 @@
 	content="PDOK preview applicatie, PDOK, services, versieinformatie" />
 <link rel="shortcut icon" href="static/img/favicon.ico" />
 <link rel="stylesheet" type="text/css"
-	href="static/ext-3.3.1/resources/css/ext-all.css" />
+	href="http://extjs.cachefly.net/ext-3.3.1/resources/css/ext-all.css" media="all" />
 <link rel="stylesheet" type="text/css"
-	href="static/ext-3.3.1/resources/css/xtheme-gray.css" />	
+	href="http://extjs.cachefly.net/ext-3.3.1/resources/css/xtheme-gray.css" media="all" />
 <link rel="stylesheet" href="static/css/style.css" type="text/css"
 	media="all" />
 <!--[if lte IE 7]>
