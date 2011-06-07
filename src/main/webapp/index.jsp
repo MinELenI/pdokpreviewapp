@@ -7,9 +7,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="shortcut icon" href="static/img/favicon.ico" />
 <link rel="stylesheet" type="text/css"
-	href="static/ext-3.3.1/resources/css/ext-all.css" />
+	href="static/ext-3.3.1/resources/css/ext-all.css" media="all" />
 <link rel="stylesheet" type="text/css"
-	href="static/ext-3.3.1/resources/css/xtheme-gray.css" />
+	href="static/ext-3.3.1/resources/css/xtheme-gray.css" media="all" />
 <link rel="stylesheet" href="static/css/style.css" type="text/css"
 	media="all" />
 <!--[if lte IE 7]>
@@ -37,7 +37,7 @@
 			Een service kan "aangezet" worden met de checkbox, de legenda
 			(onderaan het scherm) wordt dan ook bijgewerkt (mits het type service
 			dat ondersteund). <em>Let op: Veel services zijn schaal
-				afhankelijk; WFS services worden pas zichtbaar beneden nivo 7.</em>
+				afhankelijk; WFS services worden pas zichtbaar boven nivo 7.</em>
 		</p>
 		<p>Met de radio button kan een service "actief" worden gemaakt,
 			van een actieve service kan feature informatie worden opgevraagd.</p>
@@ -52,6 +52,7 @@
 	<script src="static/OpenLayers-trunk/OpenLayers.js"
 		type="text/javascript"></script>
 	<script src="static/GeoExt-1.0/script/GeoExt.js" type="text/javascript"></script>
+	<script src="static/js/LoadingPanel.js" type="text/javascript"></script>
 	<script src="static/js/settings.js" type="text/javascript"></script>
 	<script src="static/js/map.js" type="text/javascript"></script>
 </body>

@@ -87,26 +87,37 @@ function addWFS(conf) {
 	wfs.events
 			.on({
 				featureselected : function(event) {
+					var feature = event.feature;
 					// tabel met de feature info maken
-					var html = '<table class="attribuuttabel"><thead><th><td>attribuut<td><td>waarde<td></th></thead><tbody>';
-					for ( var prop in event.feature.attributes) {
-						html += '<tr><td>' + prop + '</td><td>'
-								+ event.feature.attributes[prop] + '</td></tr>';
+					var html = '<table class="featureInfo"><caption>'
+							+ feature.type
+							+ '</caption><thead><tr><th>attribuut</th><th>waarde</th></tr></thead><tbody>';
+					var i = 0;
+					for ( var prop in feature.attributes) {
+						html += '<tr class="' + ((i++ % 2) ? 'even' : 'odd')
+								+ '"><td>' + prop + '</td><td>'
+								+ feature.attributes[prop] + '</td></tr>';
 					}
 					html += '</tbody></table>';
-
-					new GeoExt.Popup({
+					var popup;
+					popup = new GeoExt.Popup({
 						title : "Feature info voor layer: " + activeLyr.name,
-						width : 500,
-						height : 150,
+						width : 250,
+						height : 250,
 						autoScroll : true,
 						maximizable : true,
 						modal : true,
 						map : mapPanel.map,
 						// feature selected heeft geen event.xy
-						location : new OpenLayers.Pixel(500, 170),
+						location : new OpenLayers.Pixel(300, 300),
 						html : html
-					}).show();
+					});
+					popup.on({
+						close : function() {
+							selectControl.unselect(feature);
+						}
+					});
+					popup.show();
 				}
 			});
 	mapPanel.map.addLayer(wfs);
@@ -164,6 +175,7 @@ var activeLyr = {
 	url : '',
 	layer : ''
 };
+var selectControl;
 
 /**
  * capabilities (of wat daar voor door gaat) document voor de layer ophalen.
@@ -214,7 +226,6 @@ function getCapabilities(layer) {
 // na laden van de pagina starten met opbouw van applicatie
 Ext
 		.onReady(function() {
-
 			// mappanel
 			mapPanel = new GeoExt.MapPanel(
 					{
@@ -235,10 +246,12 @@ Ext
 											903401.9199999999),
 									units : 'm',
 									controls : [
-											new OpenLayers.Control.Navigation(),
 											new OpenLayers.Control.ScaleLine(),
-											new OpenLayers.Control.KeyboardDefaults() ],
-									fractionalZoom : false
+											new OpenLayers.Control.KeyboardDefaults(),
+											new OpenLayers.Control.LoadingPanel(),
+											new OpenLayers.Control.Navigation() ],
+									fractionalZoom : false,
+									zoom : 2
 								}),
 						region : "center",
 						border : true,
@@ -313,7 +326,7 @@ Ext
 				}
 			});
 			// WFS feat info
-			var selectControl = new OpenLayers.Control.SelectFeature(
+			selectControl = new OpenLayers.Control.SelectFeature(
 			// new OpenLayers.Layer.Vector("dummy", {
 			// features : [],
 			// isBaseLayer : true,
