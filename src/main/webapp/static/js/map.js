@@ -41,6 +41,25 @@ function addWMS(conf) {
 }
 
 function addWFS(conf) {
+	var fType, fTypePrefx;
+
+	if (conf.layers[0].indexOf(':') > -1) {
+		fTypePrefx = conf.layers[0].split(':')[0];
+		fType = conf.layers[0].split(':')[1];
+	} else {
+		fType = fTypePrefx = conf.layers[0];
+	}
+
+	// TODO er zit een bug in pdok namespaces, natura2000 eindigd op .nl/ de rest op
+	// .nl
+	var slash = '';
+	if (NAMESPACE_SLASH_EXCEPTIONS.indexOf(fTypePrefx) > -1) {
+		slash = '/';
+	}
+
+	var colour = '#'
+			+ ('000000' + Math.round(0xffffff * Math.random()).toString(16))
+					.substr(-6);
 	var wfs = new OpenLayers.Layer.Vector(conf.naam, {
 		strategies : [ new OpenLayers.Strategy.BBOX() ],
 		minResolution : 0.42,
@@ -51,21 +70,21 @@ function addWFS(conf) {
 			srsName : 'EPSG:28992',
 			version : '1.1.0',
 			geometryName : 'geom',
-			featureNS : 'http://' + conf.layers + '.geonovum.nl/',
-			featureType : conf.layers,
-			featurePrefix : conf.layers,
+			featureNS : 'http://' + fTypePrefx + '.geonovum.nl' + slash,
+			featureType : fType,
+			featurePrefix : fTypePrefx,
 			// schema : conf.url
 			// +
 			// '?service=WFS&amp;version=1.1.0&amp;request=DescribeFeatureType&amp;typeName='
-			// + conf.layers + '%3A' + conf.layers,
+			// + fTypePrefx + '%3A' + fType,
 			ratio : 1.5
 		}),
 		// http://docs.openlayers.org/library/feature_styling.html
 		styleMap : new OpenLayers.StyleMap({
 			'default' : new OpenLayers.Style({
-				fillColor : '#ee9900',
+				fillColor : colour,
 				fillOpacity : 0.4,
-				strokeColor : '#ee9900',
+				strokeColor : colour,
 				strokeOpacity : 0.7,
 				strokeWidth : 2,
 				pointRadius : 4,
@@ -89,8 +108,8 @@ function addWFS(conf) {
 				featureselected : function(event) {
 					var feature = event.feature;
 					// tabel met de feature info maken
-					var html = '<table class="featureInfo"><caption>'
-							+ feature.type
+					var html = '<table class="featureInfo"><caption>FID: '
+							+ feature.fid
 							+ '</caption><thead><tr><th>attribuut</th><th>waarde</th></tr></thead><tbody>';
 					var i = 0;
 					for ( var prop in feature.attributes) {

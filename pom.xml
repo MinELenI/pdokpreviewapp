@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nl.pdok</groupId>
 	<artifactId>pdokpreviewapp</artifactId>
@@ -76,7 +77,8 @@
 									<maxIdleTime>60000</maxIdleTime>
 								</connector>
 							</connectors>
-							<webAppConfig implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
+							<webAppConfig
+								implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
 								<sessionHandler implementation="org.mortbay.jetty.servlet.SessionHandler">
 									<sessionManager implementation="org.mortbay.jetty.servlet.HashSessionManager">
 										<usingCookies>false</usingCookies>
@@ -156,7 +158,7 @@
 				<configuration>
 					<!-- onderstaande worden gecomprimeerd voordat ze in de .war terecht 
 						komen -->
-					<warSourceExcludes>map.js, ie-8.css, is.css, print.css, style.css</warSourceExcludes>
+					<warSourceExcludes>**/map.js,**/LoadingPanel.js,**/ie-8.css,**/ie.css,**/print.css,**/style.css</warSourceExcludes>
 					<archive>
 						<manifest>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -178,19 +180,20 @@
 				<version>1.1</version>
 				<executions>
 					<execution>
-						<phase>process-classes</phase>
+						<!--  <phase>process-classes</phase>-->
+						<phase>prepare-package</phase>
 						<goals>
 							<goal>compress</goal>
 						</goals>
 						<configuration>
 							<force>true</force>
 							<nosuffix>true</nosuffix>
-							<failOnWarning>false</failOnWarning>
 							<excludes>
 								<!-- niet comprimeren -->
 								<exclude>**/ext-3.3.1/**</exclude>
 								<exclude>**/GeoExt-1.0/**</exclude>
 								<exclude>**/OpenLayers-trunk/**</exclude>
+								<exclude>settings.js</exclude>
 							</excludes>
 						</configuration>
 					</execution>

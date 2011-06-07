@@ -17,3 +17,9 @@ var BRT_ACHTERGRONDKAART_TMS_URL = 'http://geodata.nationaalgeoregister.nl/tiles
  * url voor de top10 achtergrondkaart
  */
 var TOP10NL_TMS_URL = 'http://geodata.nationaalgeoregister.nl/tiles/service/tms/';
+/**
+ * Workround voor verschillen in namespaces. Als een namespace eindigd op .nl/
+ * in plaats van .nl deze in de array opnemen. Zie bugreport
+ * https://issues.e-id.nl/browse/GPDOK-745
+ */
+var NAMESPACE_SLASH_EXCEPTIONS = [ 'natura2000' ];
