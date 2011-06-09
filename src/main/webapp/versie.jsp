@@ -55,8 +55,8 @@
 			<jsp:expression>atts.getValue("Implementation-Build")</jsp:expression>
 		</p>
 		<p>
-			Release:
-			<jsp:expression>atts.getValue("release")</jsp:expression>
+			Bron:
+			<jsp:expression>atts.getValue("bron")</jsp:expression>
 			(SCM revisie:
 			<jsp:expression>atts.getValue("SCM-Revision")</jsp:expression>)
 		</p>

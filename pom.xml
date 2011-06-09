@@ -14,6 +14,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<site.dir.dev>file://${java.io.tmpdir}/maven-sites/${project.artifactId}</site.dir.dev>
+		<openlayers.checkout.url>scm:svn:http://svn.openlayers.org/trunk/openlayers</openlayers.checkout.url>
 	</properties>
 	<scm>
 		<connection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</connection>
@@ -27,9 +28,29 @@
 			<url>https://www.ohloh.net/accounts/mprins</url>
 			<roles>
 				<role>developer</role>
+				<role>release-manager</role>
 			</roles>
 		</developer>
 	</developers>
+	<licenses>
+		<license>
+			<name>3-clausule BSD licentie</name>
+			<url>http://www.opensource.org/licenses/bsd-license.php</url>
+			<distribution>manual</distribution>
+		</license>
+		<license>
+			<name>The Clear BSD License</name>
+			<url>http://svn.openlayers.org/trunk/openlayers/license.txt</url>
+			<comments>For any parts of OpenLayers</comments>
+			<distribution>manual</distribution>
+		</license>
+		<license>
+			<name>The New BSD Licence</name>
+			<url>http://svn.geoext.org/core/trunk/geoext/license.txt</url>
+			<comments>Voor alle delen van GeoExt</comments>
+			<distribution>manual</distribution>
+		</license>		
+	</licenses>
 	<ciManagement>
 		<system>CruiseControl</system>
 		<url>http://dbr0425s.dbr.agro.nl:8080/dashboard/tab/build/detail/${project.artifactId}</url>
@@ -126,7 +147,7 @@
 			</extension>
 		</extensions>
 		<finalName>${project.artifactId}</finalName>
-		<defaultGoal>install</defaultGoal>
+		<defaultGoal>package</defaultGoal>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -151,12 +172,88 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>getOpenLayers</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>checkout</goal>
+						</goals>
+						<configuration>
+							<connectionUrl>${openlayers.checkout.url}</connectionUrl>
+							<checkoutDirectory>${project.build.directory}/OLcheckout</checkoutDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2</version>
+				<executions>
+					<execution>
+						<!-- build single file openlayers -->
+						<id>buildOpenLayers</id>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<phase>compile</phase>
+						<configuration>
+							<!-- python executable needs to be in the path -->
+							<executable>python</executable>
+							<workingDirectory>${project.build.directory}/OLcheckout/build</workingDirectory>
+							<arguments>
+								<argument>build.py</argument>
+								<argument>${basedir}/customolbuild.cfg</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>copyOpenLayers</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<!-- copy necessary files into build -->
+							<target>
+								<!--
+								<copy todir="${project.build.scriptSourceDirectory}/lib/img">
+									<fileset dir="${project.build.directory}/OLcheckout/img">
+										<include name="**/*.*" />
+									</fileset>
+								</copy>
+								<copy todir="${project.build.directory}/pdokpreviewapp/static/OpenLayers/lib/theme">
+									<fileset dir="${project.build.directory}/OLcheckout/theme">
+										<include name="**/*.*" />
+									</fileset>
+								</copy>
+								-->
+								<copy
+									file="${project.build.directory}/OLcheckout/build/OpenLayers.js"
+									tofile="${project.build.directory}/pdokpreviewapp/static/OpenLayers/OpenLayers.js" />
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.1.1</version>
 				<configuration>
 					<!-- onderstaande worden gecomprimeerd voordat ze in de .war terecht 
 						komen -->
-					<warSourceExcludes>**/js/map.js,**/js/LoadingPanel.js,**/css/ie-8.css,**/css/ie.css,**/css/print.css,**/css/style.css</warSourceExcludes>
+					<warSourceExcludes>**/js/map.js,**/js/LoadingPanel.js,**/css/ie-8.css,**/css/ie.css,**/css/print.css,**/css/style.css,**/OpenLayers/**</warSourceExcludes>
 					<archive>
 						<manifest>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -164,10 +261,10 @@
 							<addClasspath>true</addClasspath>
 						</manifest>
 						<manifestEntries>
-							<Implementation-Build>branch: ${buildScmBranch} dd: ${buildNumber}</Implementation-Build>
+							<Implementation-Build>${project.version}</Implementation-Build>
 							<SCM-Revision>${scm.revision}</SCM-Revision>
 							<url>${project.url}</url>
-							<release>${project.version}</release>
+							<bron>branch: ${scmBranch} dd: ${buildNumber}</bron>
 						</manifestEntries>
 					</archive>
 				</configuration>

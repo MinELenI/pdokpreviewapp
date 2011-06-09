@@ -8,6 +8,14 @@
  *            mapservice config object
  */
 function addWMS(conf) {
+	var opts = {
+		isBaseLayer : false,
+		visibility : false,
+		opacity : 0.8,
+		singleTile : true,
+		transitionEffect : 'resize'
+	};
+
 	if (conf.layers.length > 1) {
 		// meer dan 1 layer voor deze WMS
 		for ( var ly = 0; ly < conf.layers.length; ly++) {
@@ -16,12 +24,7 @@ function addWMS(conf) {
 				layers : conf.layers[ly],
 				transparent : true,
 				format : 'image/png'
-			}, {
-				isBaseLayer : false,
-				visibility : false,
-				singleTile : true,
-				transitionEffect : 'resize'
-			});
+			}, opts);
 			mapPanel.map.addLayer(lyr);
 		}
 	} else {
@@ -30,12 +33,7 @@ function addWMS(conf) {
 			layers : conf.layers,
 			transparent : true,
 			format : 'image/png'
-		}, {
-			isBaseLayer : false,
-			visibility : false,
-			singleTile : true,
-			transitionEffect : 'resize'
-		});
+		}, opts);
 		mapPanel.map.addLayer(lyr);
 	}
 }
@@ -50,13 +48,13 @@ function addWFS(conf) {
 		fType = fTypePrefx = conf.layers[0];
 	}
 
-	// TODO er zit een bug in pdok namespaces, natura2000 eindigd op .nl/ de rest op
-	// .nl
+	// TODO er zit een bug in pdok namespaces, natura2000 eindigd op .nl/ de
+	// rest op .nl
 	var slash = '';
 	if (NAMESPACE_SLASH_EXCEPTIONS.indexOf(fTypePrefx) > -1) {
 		slash = '/';
 	}
-
+	// random kleurtje aanmaken
 	var colour = '#'
 			+ ('000000' + Math.round(0xffffff * Math.random()).toString(16))
 					.substr(-6);
@@ -73,6 +71,8 @@ function addWFS(conf) {
 			featureNS : 'http://' + fTypePrefx + '.geonovum.nl' + slash,
 			featureType : fType,
 			featurePrefix : fTypePrefx,
+			// schema is eigenlijk alleen nodig om features te valideren, voor
+			// alleen-lezen niet nodig
 			// schema : conf.url
 			// +
 			// '?service=WFS&amp;version=1.1.0&amp;request=DescribeFeatureType&amp;typeName='
@@ -177,8 +177,8 @@ function addWMTS(conf) {
  *            mapservice config object
  */
 function addOLS(conf) {
-	OpenLayers.Console.error('Niet geimplementeerd: toevoegen OLS: '
-			+ conf.type + 'layer: ', conf.naam);
+	OpenLayers.Console.info('Niet geimplementeerd: toevoegen OLS: ' + conf.type
+			+ 'layer: ', conf.naam);
 }
 
 /** map panel. */
@@ -207,7 +207,7 @@ function getCapabilities(layer) {
 	if (typeof layer == 'undefined') {
 		return;
 	} else if (layer.CLASS_NAME === 'OpenLayers.Layer.TMS') {
-		// TMS is een bijzonder geval
+		// TMS is een "bijzonder" geval
 		url += layer.getFullRequestString() + layer.serviceVersion;
 	} else if (layer.CLASS_NAME === 'OpenLayers.Layer.Vector') {
 		// WFS/Vector is ook een bijzonder geval, layer.protocol.url is geen API
@@ -345,14 +345,7 @@ Ext
 				}
 			});
 			// WFS feat info
-			selectControl = new OpenLayers.Control.SelectFeature(
-			// new OpenLayers.Layer.Vector("dummy", {
-			// features : [],
-			// isBaseLayer : true,
-			// map : mapPanel.map,
-			// displayInLayerSwitcher : false
-			// })
-			[], {
+			selectControl = new OpenLayers.Control.SelectFeature([], {
 				clickout : true
 			});
 			mapPanel.map.addControl(selectControl);
@@ -486,13 +479,10 @@ Ext
 								{
 									listeners : {
 										"radiochange" : function(node) {
+											// deactivate info controls
 											featureInfo.deactivate();
 											wmtsfeatureInfo.deactivate();
 											selectControl.deactivate();
-											// console.debug(node.text
-											// + "is nu de actieve laag.",
-											// node.layer);
-											// info control
 											activeLyr.name = node.text;
 											activeLyr.url = node.layer.url;
 											activeLyr.layer = node.layer;

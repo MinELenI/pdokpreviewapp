@@ -49,7 +49,7 @@
 	<script src="http://extjs.cachefly.net/ext-3.3.1/adapter/ext/ext-base.js"
 		type="text/javascript"></script>
 	<script src="http://extjs.cachefly.net/ext-3.3.1/ext-all.js" type="text/javascript"></script>
-	<script src="static/OpenLayers-trunk/OpenLayers.js"
+	<script src="static/OpenLayers/OpenLayers.js"
 		type="text/javascript"></script>
 	<script src="static/GeoExt-1.0/script/GeoExt.js" type="text/javascript"></script>
 	<script src="static/js/LoadingPanel.js" type="text/javascript"></script>
