@@ -1,0 +1,10 @@
+== OPMERKINGEN ==
+
+= OpenLayers =
+Dit project gebruikt delen van OpenLayers welke onder de Clear BSD licentie valt, zie: http://svn.openlayers.org/trunk/openlayers/license.txt voor details.
+
+= GeoExt =
+Dit project gebruikt delen van GeoExt welke onder de BSD licentie valt, zie: http://svn.geoext.org/core/trunk/geoext/license.txt voor details.
+
+= ExtJS =
+Dit project gebruikt delen van ExtJS welke onder de GPL 3 licentie valt, zie: http://www.sencha.com/products/license.php voor details.
