@@ -1,9 +1,12 @@
 /*
- * Ext script voor het laden van de kaart applicatie en functies van de applicatie.
+ * ExtJS/GeoExt script voor het laden van de kaart applicatie en functies van de applicatie.
+ * 
+ * @author mprins
  */
 /**
  * toevoegen van untiled WMS aan de kaart.
  * 
+ * @author mprins
  * @param conf
  *            mapservice config object
  */
@@ -37,7 +40,13 @@ function addWMS(conf) {
 		mapPanel.map.addLayer(lyr);
 	}
 }
-
+/**
+ * toevoegen van WFS aan de kaart met een random kleur.
+ * 
+ * @author mprins
+ * @param conf
+ *            mapservice config object
+ */
 function addWFS(conf) {
 	var fType, fTypePrefx;
 
@@ -143,9 +152,10 @@ function addWFS(conf) {
 }
 
 /**
- * toevoegen van de WMTS laag aan de kaart, uitgangspunt is opmaak volgens de
- * Nederlandse tiling richtlijn (13 levels in RD).
+ * Toevoegen van de WMTS laag aan de kaart. De service is volgens de Nederlandse
+ * tiling richtlijn (13 LOD met vastgestelde resoluties in RD).
  * 
+ * @author mprins
  * @param conf
  *            mapservice config object
  */
@@ -171,8 +181,9 @@ function addWMTS(conf) {
 }
 
 /**
- * toevoegen van een formulier aan de tabstrip om adres te kunnen zoeken.
+ * Toevoegen van een formulier aan de tabstrip om adres te kunnen zoeken.
  * 
+ * @author mprins
  * @param conf
  *            mapservice config object
  */
@@ -200,7 +211,7 @@ var selectControl;
  * capabilities (of wat daar voor door gaat) document voor de layer ophalen.
  * 
  * @param layer
- *            een OpenLayers.Layer type
+ *            een OpenLayers.Layer type uit de kaart
  */
 function getCapabilities(layer) {
 	var url = OpenLayers.ProxyHost + '';
@@ -227,7 +238,6 @@ function getCapabilities(layer) {
 		/* override render; bepaalde char's worden vervangen door html entities */
 		render : function(el, response, updateManager, callback) {
 			var filt = response.responseText;
-			// filt = filt.replace('<?xml version="1.0" ?>', '');
 			filt = filt.replace(new RegExp('<', 'g'), '&lt;');
 			filt = filt.replace(new RegExp('>', 'g'), '&gt;');
 			filt = filt.replace(new RegExp('\n', 'g'), '<br/>');

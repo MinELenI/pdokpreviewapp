@@ -4,5 +4,5 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 	version="2.4" id="previewapp">
 
-	<display-name>Archetype Created Web Application</display-name>
+	<display-name>PDOK Preview Applicatie</display-name>
 </web-app>
