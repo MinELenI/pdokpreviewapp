@@ -7,9 +7,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="shortcut icon" href="static/img/favicon.ico" />
 <link rel="stylesheet" type="text/css"
-	href="http://extjs.cachefly.net/ext-3.3.1/resources/css/ext-all.css" media="all" />
+	href="http://extjs.cachefly.net/ext-3.4.0/resources/css/ext-all.css" media="all" />
 <link rel="stylesheet" type="text/css"
-	href="http://extjs.cachefly.net/ext-3.3.1/resources/css/xtheme-gray.css" media="all" />
+	href="http://extjs.cachefly.net/ext-3.4.0/resources/css/xtheme-gray.css" media="all" />
 <link rel="stylesheet" href="static/css/style.css" type="text/css"
 	media="all" />
 <!--[if lte IE 7]>
@@ -46,9 +46,9 @@
 	</div>
 
 
-	<script src="http://extjs.cachefly.net/ext-3.3.1/adapter/ext/ext-base.js"
+	<script src="http://extjs.cachefly.net/ext-3.4.0/adapter/ext/ext-base.js"
 		type="text/javascript"></script>
-	<script src="http://extjs.cachefly.net/ext-3.3.1/ext-all.js" type="text/javascript"></script>
+	<script src="http://extjs.cachefly.net/ext-3.4.0/ext-all.js" type="text/javascript"></script>
 	<script src="static/OpenLayers/OpenLayers.js"
 		type="text/javascript"></script>
 	<script src="static/GeoExt-1.0/script/GeoExt.js" type="text/javascript"></script>

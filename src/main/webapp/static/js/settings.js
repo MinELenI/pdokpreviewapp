@@ -1,5 +1,6 @@
 /*
  * instellingen voor de PDOK Preview Applicatie.
+ * @author mprins 
  */
 /**
  * Voor uitrol op PDOK infrastuctuur kan de proxy weg/uit, de proxy.jsp kan dan
@@ -8,7 +9,7 @@
  * hetzelfde domein/omgeving als de applicatie te zitten, dwz alles op bijv.
  * test.geodata.nationaalgeoregister.nl)
  * 
- * @author mprins {String}
+ * {String}
  */
 OpenLayers.ProxyHost = 'proxy.jsp?';
 /**
