@@ -646,7 +646,7 @@ GeoExt.VectorLegend = Ext
 												repairXY : Ext.fly(sourceEl)
 														.getXY(),
 												ddel : d
-											}
+											};
 										}
 									}
 								});
@@ -841,7 +841,7 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend,
 			},
 			beforeDestroy : function() {
 				if (this.useScaleParameter === true) {
-					var layer = this.layerRecord.getLayer()
+					var layer = this.layerRecord.getLayer();
 					layer
 							&& layer.events
 							&& layer.events.unregister("moveend", this,
@@ -1062,7 +1062,7 @@ GeoExt.form.recordToField = function(record) {
 		};
 	}
 	return field;
-}
+};
 GeoExt.form.recordToField.REGEXES = {
 	"text" : new RegExp("^(text|string)$", "i"),
 	"number" : new RegExp(
@@ -1937,7 +1937,7 @@ GeoExt.SliderTip = Ext.extend(Ext.slider.Tip, {
 						}
 					},
 					scope : this
-				})
+				});
 			}).apply(this, [ thumb, el ]);
 		}
 	},
@@ -2061,7 +2061,7 @@ GeoExt.tree.TreeNodeUIEventMixin = function() {
 				this.superclass.onClick.apply(this, arguments);
 			}
 		}
-	}
+	};
 };
 Ext.namespace("GeoExt.tree");
 GeoExt.tree.OverlayLayerContainer = Ext.extend(GeoExt.tree.LayerContainer, {
@@ -2125,7 +2125,7 @@ GeoExt.tree.LayerNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
 			var checkedNodes = this.node.getOwnerTree().getChecked();
 			var checkedCount = 0;
 			Ext.each(checkedNodes, function(n) {
-				var l = n.layer
+				var l = n.layer;
 				if (!n.hidden && n.attributes.checkedGroup === group) {
 					checkedCount++;
 					if (l != layer && attributes.checked) {
