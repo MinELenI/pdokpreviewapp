@@ -256,7 +256,7 @@
 				<configuration>
 					<!-- onderstaande worden gecomprimeerd voordat ze in de .war terecht 
 						komen -->
-					<warSourceExcludes>**/js/map.js,**/js/LoadingPanel.js,**/css/ie-8.css,**/css/ie.css,**/css/print.css,**/css/style.css,**/OpenLayers/**</warSourceExcludes>
+					<warSourceExcludes>**/js/map.js,**/js/LoadingPanel.js,**/css/ie-8.css,**/css/ie.css,**/css/print.css,**/css/style.css,**/OpenLayers/**,**/GeoExt-1.0/**</warSourceExcludes>
 					<archive>
 						<manifest>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -288,7 +288,7 @@
 							<nosuffix>true</nosuffix>
 							<excludes>
 								<!-- niet comprimeren -->
-								<exclude>**/GeoExt-1.0/**</exclude>
+								<!-- <exclude>**/GeoExt-1.0/**</exclude> -->
 								<exclude>**/OpenLayers/**</exclude>
 								<exclude>settings.js</exclude>
 							</excludes>
