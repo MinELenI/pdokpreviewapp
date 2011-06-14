@@ -11,16 +11,19 @@
  *            mapservice config object
  */
 function addWMS(conf) {
+	/** gedeelde opties */
 	var opts = {
 		isBaseLayer : false,
 		visibility : false,
 		opacity : 0.8,
 		singleTile : true,
 		transitionEffect : 'resize'
-	}, lyr;
+	},
+	/** toe te voegen layer */
+	lyr;
 
 	if (conf.layers.length > 1) {
-		// meer dan 1 layer voor deze WMS
+		/* meer dan 1 layer voor deze WMS */
 		for ( var ly = 0; ly < conf.layers.length; ly++) {
 			lyr = new OpenLayers.Layer.WMS(conf.naam + ':' + conf.layers[ly],
 					conf.url, {
@@ -31,7 +34,7 @@ function addWMS(conf) {
 			mapPanel.map.addLayer(lyr);
 		}
 	} else {
-		// 1 layer voor deze WMS
+		/* 1 layer voor deze WMS */
 		lyr = new OpenLayers.Layer.WMS(conf.naam, conf.url, {
 			layers : conf.layers,
 			transparent : true,
@@ -48,7 +51,16 @@ function addWMS(conf) {
  *            mapservice config object
  */
 function addWFS(conf) {
-	var fType, fTypePrefx, slash = '', colour, wfs;
+	/** feature type */
+	var fType,
+	/** feature type prefix */
+	fTypePrefx,
+	/** bug workaround */
+	slash = '',
+	/** kleur voor renderen */
+	colour,
+	/** WFS layer */
+	wfs;
 
 	if (conf.layers[0].indexOf(':') > -1) {
 		fTypePrefx = conf.layers[0].split(':')[0];
@@ -59,7 +71,6 @@ function addWFS(conf) {
 
 	// TODO er zit een bug in pdok namespaces, natura2000 eindigd op .nl/ de
 	// rest op .nl
-
 	if (NAMESPACE_SLASH_EXCEPTIONS.indexOf(fTypePrefx) > -1) {
 		slash = '/';
 	}
@@ -198,13 +209,19 @@ var mapPanel,
 capsPanel,
 /** tabbed panel. */
 tabs,
-/** active/selected layer. */
+/**
+ * active/selected layer. {Object}
+ */
 activeLyr = {
 	name : '',
 	url : '',
 	layer : ''
 },
-/** vector select control/ */
+/**
+ * vector select control
+ * 
+ * @type {OpenLayers.Control.SelectFeature}
+ */
 selectControl;
 
 /**

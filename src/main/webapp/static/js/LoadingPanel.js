@@ -114,7 +114,7 @@ OpenLayers.Control.LoadingPanel = OpenLayers.Class(OpenLayers.Control, {
 	 */
 	getWaitText : function() {
 		return "Wachten op " + this.counter
-				+ (this.counter <= 1 ? " service." : " services.");
+				+ (this.counter <= 1 ? " service. " : " services. ");
 	},
 
 	/**
@@ -218,5 +218,4 @@ OpenLayers.Control.LoadingPanel = OpenLayers.Class(OpenLayers.Control, {
 	},
 
 	CLASS_NAME : "OpenLayers.Control.LoadingPanel"
-
 });
