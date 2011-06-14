@@ -17,22 +17,22 @@ function addWMS(conf) {
 		opacity : 0.8,
 		singleTile : true,
 		transitionEffect : 'resize'
-	};
+	}, lyr;
 
 	if (conf.layers.length > 1) {
 		// meer dan 1 layer voor deze WMS
 		for ( var ly = 0; ly < conf.layers.length; ly++) {
-			var lyr = new OpenLayers.Layer.WMS(conf.naam + ':'
-					+ conf.layers[ly], conf.url, {
-				layers : conf.layers[ly],
-				transparent : true,
-				format : 'image/png'
-			}, opts);
+			lyr = new OpenLayers.Layer.WMS(conf.naam + ':' + conf.layers[ly],
+					conf.url, {
+						layers : conf.layers[ly],
+						transparent : true,
+						format : 'image/png'
+					}, opts);
 			mapPanel.map.addLayer(lyr);
 		}
 	} else {
 		// 1 layer voor deze WMS
-		var lyr = new OpenLayers.Layer.WMS(conf.naam, conf.url, {
+		lyr = new OpenLayers.Layer.WMS(conf.naam, conf.url, {
 			layers : conf.layers,
 			transparent : true,
 			format : 'image/png'
@@ -48,7 +48,7 @@ function addWMS(conf) {
  *            mapservice config object
  */
 function addWFS(conf) {
-	var fType, fTypePrefx;
+	var fType, fTypePrefx, slash = '', colour, wfs;
 
 	if (conf.layers[0].indexOf(':') > -1) {
 		fTypePrefx = conf.layers[0].split(':')[0];
@@ -59,15 +59,15 @@ function addWFS(conf) {
 
 	// TODO er zit een bug in pdok namespaces, natura2000 eindigd op .nl/ de
 	// rest op .nl
-	var slash = '';
+
 	if (NAMESPACE_SLASH_EXCEPTIONS.indexOf(fTypePrefx) > -1) {
 		slash = '/';
 	}
 	// random kleurtje aanmaken
-	var colour = '#'
+	colour = '#'
 			+ ('000000' + Math.round(0xffffff * Math.random()).toString(16))
 					.substr(-6);
-	var wfs = new OpenLayers.Layer.Vector(conf.naam, {
+	wfs = new OpenLayers.Layer.Vector(conf.naam, {
 		strategies : [ new OpenLayers.Strategy.BBOX() ],
 		minResolution : 0.42,
 		maxResolution : 26.880,
@@ -160,12 +160,12 @@ function addWFS(conf) {
  *            mapservice config object
  */
 function addWMTS(conf) {
-	var matrixIds = new Array(13);
+	var matrixIds = new Array(13), lyr;
 	for ( var i = 0; i < 13; ++i) {
 		matrixIds[i] = "EPSG:28992:" + i;
 	}
 
-	var lyr = new OpenLayers.Layer.WMTS({
+	lyr = new OpenLayers.Layer.WMTS({
 		name : conf.naam,
 		url : conf.url,
 		layer : conf.layers,
@@ -193,19 +193,19 @@ function addOLS(conf) {
 }
 
 /** map panel. */
-var mapPanel;
+var mapPanel,
 /** capabilities panel. */
-var capsPanel;
+capsPanel,
 /** tabbed panel. */
-var tabs;
-
+tabs,
 /** active/selected layer. */
-var activeLyr = {
+activeLyr = {
 	name : '',
 	url : '',
 	layer : ''
-};
-var selectControl;
+},
+/** vector select control/ */
+selectControl;
 
 /**
  * capabilities (of wat daar voor door gaat) document voor de layer ophalen.
