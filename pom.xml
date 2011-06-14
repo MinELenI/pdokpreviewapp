@@ -254,6 +254,7 @@
 						komen -->
 					<warSourceExcludes>**/js/map.js,**/js/LoadingPanel.js,**/css/ie-8.css,**/css/ie.css,**/css/print.css,**/css/style.css,**/OpenLayers/**,**/GeoExt-1.0/script/GeoExt.js</warSourceExcludes>
 					<warSourceIncludes>**/OpenLayers/**/*.gif</warSourceIncludes>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
 					<archive>
 						<manifest>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
