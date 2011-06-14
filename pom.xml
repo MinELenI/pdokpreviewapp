@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nl.pdok</groupId>
 	<artifactId>pdokpreviewapp</artifactId>
@@ -49,7 +50,7 @@
 			<url>http://svn.geoext.org/core/trunk/geoext/license.txt</url>
 			<comments>Voor alle delen van GeoExt</comments>
 			<distribution>manual</distribution>
-		</license>		
+		</license>
 	</licenses>
 	<ciManagement>
 		<system>CruiseControl</system>
@@ -97,7 +98,8 @@
 									<maxIdleTime>60000</maxIdleTime>
 								</connector>
 							</connectors>
-							<webAppConfig implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
+							<webAppConfig
+								implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
 								<sessionHandler implementation="org.mortbay.jetty.servlet.SessionHandler">
 									<sessionManager implementation="org.mortbay.jetty.servlet.HashSessionManager">
 										<usingCookies>false</usingCookies>
@@ -120,7 +122,7 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>tomcat-maven-plugin</artifactId>
-						<version>1.0</version>
+						<version>1.1</version>
 						<configuration>
 							<url>http://dbr4029v.dbr.agro.nl:8020/manager</url>
 							<server>dbr4029v</server>
@@ -152,7 +154,8 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
-				<version>1.0-beta-4</version>
+				<!-- 1.0-beta-4 -->
+				<version>1.0</version>
 				<executions>
 					<execution>
 						<phase>validate</phase>
@@ -226,24 +229,17 @@
 						<configuration>
 							<!-- copy necessary files into build -->
 							<target>
-								<!--
-								<copy todir="${project.build.scriptSourceDirectory}/lib/img">
-									<fileset dir="${project.build.directory}/OLcheckout/img">
-										<include name="**/*.*" />
-									</fileset>
-								</copy>
-								<copy todir="${project.build.directory}/pdokpreviewapp/static/OpenLayers/lib/theme">
-									<fileset dir="${project.build.directory}/OLcheckout/theme">
-										<include name="**/*.*" />
-									</fileset>
-								</copy>
-								-->
+								<!-- <copy todir="${project.build.scriptSourceDirectory}/lib/img"> 
+									<fileset dir="${project.build.directory}/OLcheckout/img"> <include name="**/*.*" 
+									/> </fileset> </copy> <copy todir="${project.build.directory}/pdokpreviewapp/static/OpenLayers/lib/theme"> 
+									<fileset dir="${project.build.directory}/OLcheckout/theme"> <include name="**/*.*" 
+									/> </fileset> </copy> -->
 								<copy
 									file="${project.build.directory}/OLcheckout/build/OpenLayers.js"
 									tofile="${project.build.directory}/pdokpreviewapp/static/OpenLayers/OpenLayers.js" />
-								<copy
+								<!-- <copy
 									file="${project.build.directory}/OLcheckout/theme/default/style.css"
-									tofile="${project.build.directory}/pdokpreviewapp/static/OpenLayers/theme/default/style.css" />
+									tofile="${project.build.directory}/pdokpreviewapp/static/OpenLayers/theme/default/style.css" /> -->
 							</target>
 						</configuration>
 					</execution>
@@ -256,7 +252,8 @@
 				<configuration>
 					<!-- onderstaande worden gecomprimeerd voordat ze in de .war terecht 
 						komen -->
-					<warSourceExcludes>**/js/map.js,**/js/LoadingPanel.js,**/css/ie-8.css,**/css/ie.css,**/css/print.css,**/css/style.css,**/OpenLayers/**,**/GeoExt-1.0/**</warSourceExcludes>
+					<warSourceExcludes>**/js/map.js,**/js/LoadingPanel.js,**/css/ie-8.css,**/css/ie.css,**/css/print.css,**/css/style.css,**/OpenLayers/**,**/GeoExt-1.0/script/GeoExt.js</warSourceExcludes>
+					<warSourceIncludes>**/OpenLayers/**/*.gif</warSourceIncludes>
 					<archive>
 						<manifest>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -275,10 +272,10 @@
 			<plugin>
 				<groupId>net.alchim31.maven</groupId>
 				<artifactId>yuicompressor-maven-plugin</artifactId>
-				<version>1.1</version>
+				<version>1.2</version>
 				<executions>
 					<execution>
-						<!--  <phase>process-classes</phase>-->
+						<!-- <phase>process-classes</phase> -->
 						<phase>prepare-package</phase>
 						<goals>
 							<goal>compress</goal>
@@ -289,7 +286,7 @@
 							<excludes>
 								<!-- niet comprimeren -->
 								<!-- <exclude>**/GeoExt-1.0/**</exclude> -->
-								<exclude>**/OpenLayers/**</exclude>
+								<exclude>OpenLayers.js</exclude>
 								<exclude>settings.js</exclude>
 							</excludes>
 						</configuration>
