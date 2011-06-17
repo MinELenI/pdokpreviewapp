@@ -15,7 +15,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<site.dir.dev>file://${java.io.tmpdir}/maven-sites/${project.artifactId}</site.dir.dev>
 		<openlayers.checkout.url>scm:svn:http://svn.openlayers.org/trunk/openlayers</openlayers.checkout.url>
-
 		<openlayers.compress.build>jsmin</openlayers.compress.build>
 	</properties>
 	<scm>
@@ -134,11 +133,6 @@
 		<profile>
 			<id>developer-updates</id>
 			<!-- plaatst een nieuwe build in de juiste directory -->
-			<activation>
-				<property>
-					<name>updatesrc</name>
-				</property>
-			</activation>
 			<properties>
 				<openlayers.compress.build>none</openlayers.compress.build>
 			</properties>
@@ -245,8 +239,9 @@
 							<workingDirectory>${project.build.directory}/OLcheckout/build</workingDirectory>
 							<arguments>
 								<argument>build.py</argument>
+								<argument>-c</argument>
+								<argument>${openlayers.compress.build}</argument>
 								<argument>${basedir}/customolbuild.cfg</argument>
-								<argument>-c ${openlayers.compress.build}</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -288,12 +283,8 @@
 						<configuration>
 							<!-- copy necessary files into build -->
 							<target>
-								<!-- <copy todir="${project.build.scriptSourceDirectory}/lib/img"> 
-									<fileset dir="${project.build.directory}/OLcheckout/img"> <include name="**/*.*" /> </fileset> </copy> <copy todir="${project.build.directory}/pdokpreviewapp/static/OpenLayers/lib/theme"> 
-									<fileset dir="${project.build.directory}/OLcheckout/theme"> <include name="**/*.*" /> </fileset> </copy> -->
 								<copy file="${basedir}/src/main/webapp/static/js/settings.js" tofile="${project.build.directory}/pdokpreviewapp/static/js/settings.js" overwrite="true" verbose="true" />
 								<copy file="${project.build.directory}/OLcheckout/build/OpenLayers.js" tofile="${project.build.directory}/pdokpreviewapp/static/OpenLayers/OpenLayers.js" overwrite="true" verbose="true" />
-								<!-- <copy file="${project.build.directory}/OLcheckout/theme/default/style.css" tofile="${project.build.directory}/pdokpreviewapp/static/OpenLayers/theme/default/style.css" /> -->
 							</target>
 						</configuration>
 					</execution>
