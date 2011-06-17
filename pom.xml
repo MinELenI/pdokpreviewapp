@@ -3,7 +3,7 @@
 	<groupId>nl.pdok</groupId>
 	<artifactId>pdokpreviewapp</artifactId>
 	<packaging>war</packaging>
-	<version>0.4</version>
+	<version>0.5-SNAPSHOT</version>
 	<name>PDOK services preview applicatie</name>
 	<description>Preview applicatie tbv. PDOK services.</description>
 	<url>http://sourceforge.net/p/pdokpreviewapp/home/</url>
@@ -19,9 +19,9 @@
 		<openlayers.compress.build>jsmin</openlayers.compress.build>
 	</properties>
 	<scm>
-		<connection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/tags/pdokpreviewapp-0.4</connection>
-		<developerConnection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/tags/pdokpreviewapp-0.4</developerConnection>
-		<url>https://svn.code.sf.net/p/pdokpreviewapp/code/tags/pdokpreviewapp-0.4</url>
+		<connection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</connection>
+		<developerConnection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</developerConnection>
+		<url>https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</url>
 	</scm>
 	<developers>
 		<developer>
@@ -293,8 +293,7 @@
 									<fileset dir="${project.build.directory}/OLcheckout/theme"> <include name="**/*.*" /> </fileset> </copy> -->
 								<copy file="${basedir}/src/main/webapp/static/js/settings.js" tofile="${project.build.directory}/pdokpreviewapp/static/js/settings.js" overwrite="true" verbose="true" />
 								<copy file="${project.build.directory}/OLcheckout/build/OpenLayers.js" tofile="${project.build.directory}/pdokpreviewapp/static/OpenLayers/OpenLayers.js" overwrite="true" verbose="true" />
-								<!-- <copy file="${project.build.directory}/OLcheckout/theme/default/style.css" tofile="${project.build.directory}/pdokpreviewapp/static/OpenLayers/theme/default/style.css" 
-									 /> -->
+								<!-- <copy file="${project.build.directory}/OLcheckout/theme/default/style.css" tofile="${project.build.directory}/pdokpreviewapp/static/OpenLayers/theme/default/style.css" /> -->
 							</target>
 						</configuration>
 					</execution>
