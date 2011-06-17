@@ -2629,6 +2629,22 @@ OpenLayers.Util.isElement = function(o) {
     return !!(o && o.nodeType === 1);
 };
 
+/**
+ * Function: isArray
+ * Tests that the provided object is an array.
+ * This test handles the cross-IFRAME case not caught
+ * by "a instanceof Array" and should be used instead.
+ * 
+ * Parameters:
+ * a - {Object} the object test.
+ * 
+ * Returns
+ * {Boolean} true if the object is an array.
+ */
+OpenLayers.Util.isArray = function(a) {
+	return (Object.prototype.toString.call(a) === '[object Array]');
+};
+
 /** 
  * Maintain existing definition of $.
  */
@@ -2917,7 +2933,7 @@ OpenLayers.Util.onImageLoadError = function() {
     this._attempts = (this._attempts) ? (this._attempts + 1) : 1;
     if (this._attempts <= OpenLayers.IMAGE_RELOAD_ATTEMPTS) {
         var urls = this.urls;
-        if (urls && urls instanceof Array && urls.length > 1){
+        if (urls && OpenLayers.Util.isArray(urls) && urls.length > 1){
             var src = this.src.toString();
             var current_url, k;
             for (k = 0; current_url = urls[k]; k++){
@@ -11749,7 +11765,7 @@ OpenLayers.Layer.HTTPRequest = OpenLayers.Class(OpenLayers.Layer, {
         // in which case we will deterministically select one of them in 
         // order to evenly distribute requests to different urls.
         //
-        if (url instanceof Array) {
+        if (OpenLayers.Util.isArray(url)) {
             url = this.selectUrl(paramsString, url);
         }   
  
@@ -13311,7 +13327,7 @@ OpenLayers.Tile.Image = OpenLayers.Class(OpenLayers.Tile, {
             }
 
             // needed for changing to a different server for onload error
-            if (this.layer.url instanceof Array) {
+            if (OpenLayers.Util.isArray(this.layer.url)) {
                 this.imgDiv.urls = this.layer.url.slice();
             }
       
@@ -13953,7 +13969,7 @@ OpenLayers.Layer.WMTS = OpenLayers.Class(OpenLayers.Layer.Grid, {
                 path = path + this.matrixSet + "/" + this.matrix.identifier + 
                     "/" + info.row + "/" + info.col + "." + this.formatSuffix;
                 
-                if (this.url instanceof Array) {
+                if (OpenLayers.Util.isArray(this.url)) {
                     url = this.selectUrl(path, this.url);
                 } else {
                     url = this.url;
@@ -15087,7 +15103,8 @@ OpenLayers.Format.WFST.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
         xsi: "http://www.w3.org/2001/XMLSchema-instance",
         wfs: "http://www.opengis.net/wfs",
         gml: "http://www.opengis.net/gml",
-        ogc: "http://www.opengis.net/ogc"
+        ogc: "http://www.opengis.net/ogc",
+        ows: "http://www.opengis.net/ows"
     },
     
     /**
@@ -18461,7 +18478,7 @@ OpenLayers.Geometry.fromWKT = function(wkt) {
     var result = format.read(wkt);
     if(result instanceof OpenLayers.Feature.Vector) {
         geom = result.geometry;
-    } else if(result instanceof Array) {
+    } else if(OpenLayers.Util.isArray(result)) {
         var len = result.length;
         var components = new Array(len);
         for(var i=0; i<len; ++i) {
@@ -19066,7 +19083,7 @@ OpenLayers.Geometry.Collection = OpenLayers.Class(OpenLayers.Geometry, {
      * components - {Array(<OpenLayers.Geometry>)} An array of geometries to add
      */
     addComponents: function(components){
-        if(!(components instanceof Array)) {
+        if(!(OpenLayers.Util.isArray(components))) {
             components = [components];
         }
         for(var i=0, len=components.length; i<len; i++) {
@@ -19120,7 +19137,7 @@ OpenLayers.Geometry.Collection = OpenLayers.Class(OpenLayers.Geometry, {
      * components - {Array(<OpenLayers.Geometry>)} The components to be removed
      */
     removeComponents: function(components) {
-        if(!(components instanceof Array)) {
+        if(!(OpenLayers.Util.isArray(components))) {
             components = [components];
         }
         for(var i=components.length-1; i>=0; --i) {
@@ -19403,7 +19420,7 @@ OpenLayers.Geometry.Collection = OpenLayers.Class(OpenLayers.Geometry, {
         if(!geometry || !geometry.CLASS_NAME ||
            (this.CLASS_NAME != geometry.CLASS_NAME)) {
             equivalent = false;
-        } else if(!(geometry.components instanceof Array) ||
+        } else if(!(OpenLayers.Util.isArray(geometry.components)) ||
                   (geometry.components.length != this.components.length)) {
             equivalent = false;
         } else {
@@ -21950,7 +21967,7 @@ OpenLayers.Format.GML = OpenLayers.Class(OpenLayers.Format.XML, {
      * {String} A string representing the GML document.
      */
     write: function(features) {
-        if(!(features instanceof Array)) {
+        if(!(OpenLayers.Util.isArray(features))) {
             features = [features];
         }
         var gml = this.createElementNS("http://www.opengis.net/wfs",
@@ -22659,7 +22676,7 @@ OpenLayers.Format.GML.Base = OpenLayers.Class(OpenLayers.Format.XML, {
      */
     write: function(features) {
         var name;
-        if(features instanceof Array) {
+        if(OpenLayers.Util.isArray(features)) {
             name = "featureMembers";
         } else {
             name = "featureMember";
@@ -23072,7 +23089,7 @@ OpenLayers.Format.GML.v3 = OpenLayers.Class(OpenLayers.Format.GML.Base, {
      */
     write: function(features) {
         var name;
-        if(features instanceof Array) {
+        if(OpenLayers.Util.isArray(features)) {
             name = "featureMembers";
         } else {
             name = "featureMember";
@@ -23507,6 +23524,452 @@ OpenLayers.Format.Filter.v1_1_0 = OpenLayers.Class(
 
 });
 /* ======================================================================
+    OpenLayers/Format/OWSCommon.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2011 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the Clear BSD license.  
+ * See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Format/XML.js
+ */
+
+/**
+ * Class: OpenLayers.Format.OWSCommon
+ * Read OWSCommon. Create a new instance with the <OpenLayers.Format.OWSCommon>
+ *     constructor.
+ * 
+ * Inherits from:
+ *  - <OpenLayers.Format.XML>
+ */
+OpenLayers.Format.OWSCommon = OpenLayers.Class(OpenLayers.Format.XML, {
+    
+    /**
+     * APIProperty: defaultVersion
+     * {String} Version number to assume if none found.  Default is "1.0.0".
+     */
+    defaultVersion: "1.0.0",
+    
+    /**
+     * APIProperty: version
+     * {String} Specify a version string if one is known.
+     */
+    version: null,
+    
+    /**
+     * Property: parser
+     * {Object} Instance of the versioned parser.  Cached for multiple read and
+     *     write calls of the same version.
+     */
+    parser: null,
+
+    /**
+     * Constructor: OpenLayers.Format.OWSCommon
+     * Create a new parser for OWSCommon.
+     *
+     * Parameters:
+     * options - {Object} An optional object whose properties will be set on
+     *     this instance.
+     */
+
+    /**
+     * APIMethod: read
+     * Read an OWSCommon document and return an object.
+     *
+     * Parameters:
+     * data - {String | DOMElement} Data to read.
+     * options - {Object} Options for the reader.
+     *
+     * Returns:
+     * {Object} An object representing the structure of the document.
+     */
+    read: function(data, options) {
+        if(typeof data == "string") {
+            data = OpenLayers.Format.XML.prototype.read.apply(this, [data]);
+        }
+        var root = data.documentElement;
+        var version = this.version;
+        if(!version) {
+            // remember version does not correspond to the OWS version
+            // it corresponds to the WMS/WFS/WCS etc. request version
+            var uri = root.getAttribute("xmlns:ows");
+            // the above will fail if the namespace prefix is different than
+            // ows and if the namespace is declared on a different element
+            if (uri && uri.substring(uri.lastIndexOf("/")+1) === "1.1") {
+                version ="1.1.0";
+            } 
+            if(!version) {
+                version = this.defaultVersion;
+            }
+        }
+        if(!this.parser || this.parser.VERSION != version) {
+            var format = OpenLayers.Format.OWSCommon[
+                "v" + version.replace(/\./g, "_")
+            ];
+            if(!format) {
+                throw "Can't find a OWSCommon parser for version " +
+                      version;
+            }
+            this.parser = new format(this.options);
+        }
+        var ows = this.parser.read(data, options);
+        return ows;
+    },
+
+    CLASS_NAME: "OpenLayers.Format.OWSCommon" 
+});
+/* ======================================================================
+    OpenLayers/Format/OWSCommon/v1.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2011 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the Clear BSD license.  
+ * See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Format/OWSCommon.js
+ */
+
+/**
+ * Class: OpenLayers.Format.OWSCommon.v1
+ * Common readers and writers for OWSCommon v1.X formats
+ */
+OpenLayers.Format.OWSCommon.v1 = OpenLayers.Class(OpenLayers.Format.XML, {
+   
+    /**
+     * Property: regExes
+     * Compiled regular expressions for manipulating strings.
+     */
+    regExes: {
+        trimSpace: (/^\s*|\s*$/g),
+        removeSpace: (/\s*/g),
+        splitSpace: (/\s+/),
+        trimComma: (/\s*,\s*/g)
+    },
+
+    /**
+     * Method: read
+     *
+     * Parameters:
+     * data - {DOMElement} An OWSCommon document element.
+     * options - {Object} Options for the reader.
+     *
+     * Returns:
+     * {Object} An object representing the OWSCommon document.
+     */
+    read: function(data, options) {
+        options = OpenLayers.Util.applyDefaults(options, this.options);
+        var ows = {};
+        this.readChildNodes(data, ows);
+        return ows;
+    },
+
+    /**
+     * Property: readers
+     * Contains public functions, grouped by namespace prefix, that will
+     *     be applied when a namespaced node is found matching the function
+     *     name.  The function will be applied in the scope of this parser
+     *     with two arguments: the node being read and a context object passed
+     *     from the parent.
+     */
+    readers: {
+        "ows": {
+            "Exception": function(node, exceptionReport) {
+                var exception = {
+                    code: node.getAttribute('exceptionCode'),
+                    locator: node.getAttribute('locator'),
+                    texts: []
+                };
+                exceptionReport.exceptions.push(exception);
+                this.readChildNodes(node, exception);
+            },
+            "ExceptionText": function(node, exception) {
+                var text = this.getChildValue(node);
+                exception.texts.push(text);
+            },
+            "ServiceIdentification": function(node, obj) {
+                obj.serviceIdentification = {};
+                this.readChildNodes(node, obj.serviceIdentification);
+            },
+            "Title": function(node, obj) {
+                obj.title = this.getChildValue(node);
+            },
+            "Abstract": function(node, serviceIdentification) {
+                serviceIdentification["abstract"] = this.getChildValue(node);
+            },
+            "Keywords": function(node, serviceIdentification) {
+                serviceIdentification.keywords = {};
+                this.readChildNodes(node, serviceIdentification.keywords);
+            },
+            "Keyword": function(node, keywords) {
+                keywords[this.getChildValue(node)] = true;
+            },
+            "ServiceType": function(node, serviceIdentification) {
+                serviceIdentification.serviceType = {
+                    codeSpace: node.getAttribute('codeSpace'), 
+                    value: this.getChildValue(node)};
+            },
+            "ServiceTypeVersion": function(node, serviceIdentification) {
+                serviceIdentification.serviceTypeVersion = this.getChildValue(node);
+            },
+            "Fees": function(node, serviceIdentification) {
+                serviceIdentification.fees = this.getChildValue(node);
+            },
+            "AccessConstraints": function(node, serviceIdentification) {
+                serviceIdentification.accessConstraints = 
+                    this.getChildValue(node);
+            },
+            "ServiceProvider": function(node, obj) {
+                obj.serviceProvider = {};
+                this.readChildNodes(node, obj.serviceProvider);
+            },
+            "ProviderName": function(node, serviceProvider) {
+                serviceProvider.providerName = this.getChildValue(node);
+            },
+            "ProviderSite": function(node, serviceProvider) {
+                serviceProvider.providerSite = this.getAttributeNS(node, 
+                    this.namespaces.xlink, "href");
+            },
+            "ServiceContact": function(node, serviceProvider) {
+                serviceProvider.serviceContact = {};
+                this.readChildNodes(node, serviceProvider.serviceContact);
+            },
+            "IndividualName": function(node, serviceContact) {
+                serviceContact.individualName = this.getChildValue(node);
+            },
+            "PositionName": function(node, serviceContact) {
+                serviceContact.positionName = this.getChildValue(node);
+            },
+            "ContactInfo": function(node, serviceContact) {
+                serviceContact.contactInfo = {};
+                this.readChildNodes(node, serviceContact.contactInfo);
+            },
+            "Phone": function(node, contactInfo) {
+                contactInfo.phone = {};
+                this.readChildNodes(node, contactInfo.phone);
+            },
+            "Voice": function(node, phone) {
+                phone.voice = this.getChildValue(node);
+            },
+            "Address": function(node, contactInfo) {
+                contactInfo.address = {};
+                this.readChildNodes(node, contactInfo.address);
+            },
+            "DeliveryPoint": function(node, address) {
+                address.deliveryPoint = this.getChildValue(node);
+            },
+            "City": function(node, address) {
+                address.city = this.getChildValue(node);
+            },
+            "AdministrativeArea": function(node, address) {
+                address.administrativeArea = this.getChildValue(node);
+            },
+            "PostalCode": function(node, address) {
+                address.postalCode = this.getChildValue(node);
+            },
+            "Country": function(node, address) {
+                address.country = this.getChildValue(node);
+            },
+            "ElectronicMailAddress": function(node, address) {
+                address.electronicMailAddress = this.getChildValue(node);
+            },
+            "Role": function(node, serviceContact) {
+                serviceContact.role = this.getChildValue(node);
+            },
+            "OperationsMetadata": function(node, obj) {
+                obj.operationsMetadata = {};
+                this.readChildNodes(node, obj.operationsMetadata);
+            },
+            "Operation": function(node, operationsMetadata) {
+                var name = node.getAttribute("name");
+                operationsMetadata[name] = {};
+                this.readChildNodes(node, operationsMetadata[name]);
+            },
+            "DCP": function(node, operation) {
+                operation.dcp = {};
+                this.readChildNodes(node, operation.dcp);
+            },
+            "HTTP": function(node, dcp) {
+                dcp.http = {};
+                this.readChildNodes(node, dcp.http);
+            },
+            "Get": function(node, http) {
+                http.get = this.getAttributeNS(node, 
+                    this.namespaces.xlink, "href");
+            },
+            "Post": function(node, http) {
+                http.post = this.getAttributeNS(node, 
+                    this.namespaces.xlink, "href");
+            },
+            "Parameter": function(node, operation) {
+                if (!operation.parameters) {
+                    operation.parameters = {};
+                }
+                var name = node.getAttribute("name");
+                operation.parameters[name] = {};
+                this.readChildNodes(node, operation.parameters[name]);
+            },
+            "Value": function(node, allowedValues) {
+                allowedValues[this.getChildValue(node)] = true;
+            },
+            "OutputFormat": function(node, obj) {
+                obj.formats.push({value: this.getChildValue(node)});
+                this.readChildNodes(node, obj);
+            },
+            "WGS84BoundingBox": function(node, obj) {
+                var boundingBox = {};
+                boundingBox.crs = node.getAttribute("crs");
+                if (obj.BoundingBox) {
+                    obj.BoundingBox.push(boundingBox);
+                } else {
+                    obj.projection = boundingBox.crs;
+                    boundingBox = obj;
+               }
+               this.readChildNodes(node, boundingBox);
+            },
+            "BoundingBox": function(node, obj) {
+                // FIXME: We consider that BoundingBox is the same as WGS84BoundingBox
+                // LowerCorner = "min_x min_y"
+                // UpperCorner = "max_x max_y"
+                // It should normally depend on the projection
+                this.readers['ows']['WGS84BoundingBox'].apply(this, [node, obj]);
+            },
+            "LowerCorner": function(node, obj) {
+                var str = this.getChildValue(node).replace(
+                    this.regExes.trimSpace, "");
+                str = str.replace(this.regExes.trimComma, ",");
+                var pointList = str.split(this.regExes.splitSpace);
+                obj.left = pointList[0];
+                obj.bottom = pointList[1];
+            },
+            "UpperCorner": function(node, obj) {
+                var str = this.getChildValue(node).replace(
+                    this.regExes.trimSpace, "");
+                str = str.replace(this.regExes.trimComma, ",");
+                var pointList = str.split(this.regExes.splitSpace);
+                obj.right = pointList[0];
+                obj.top = pointList[1];
+                obj.bounds = new OpenLayers.Bounds(obj.left, obj.bottom,
+                    obj.right, obj.top);
+                delete obj.left;
+                delete obj.bottom;
+                delete obj.right;
+                delete obj.top;
+            }
+        }
+    },
+
+    /**
+     * Property: writers
+     * As a compliment to the readers property, this structure contains public
+     *     writing functions grouped by namespace alias and named like the
+     *     node names they produce.
+     */
+    writers: {
+        "ows": {
+            "BoundingBox": function(options) {
+                var node = this.createElementNSPlus("ows:BoundingBox", {
+                    attributes: {
+                        crs: options.projection
+                    }
+                });
+                this.writeNode("ows:LowerCorner", options, node);
+                this.writeNode("ows:UpperCorner", options, node);
+                return node;
+            },
+            "LowerCorner": function(options) {
+                var node = this.createElementNSPlus("ows:LowerCorner", {
+                    value: options.bounds.left + " " + options.bounds.bottom });
+                return node;
+            },
+            "UpperCorner": function(options) {
+                var node = this.createElementNSPlus("ows:UpperCorner", {
+                    value: options.bounds.right + " " + options.bounds.top });
+                return node;
+            },
+            "Title": function(title) {
+                var node = this.createElementNSPlus("ows:Title", {
+                    value: title });
+                return node;
+            },
+            "OutputFormat": function(format) {
+                var node = this.createElementNSPlus("ows:OutputFormat", {
+                    value: format });
+                return node;
+            }
+        }
+    },
+
+    CLASS_NAME: "OpenLayers.Format.OWSCommon.v1"
+
+});
+/* ======================================================================
+    OpenLayers/Format/OWSCommon/v1_0_0.js
+   ====================================================================== */
+
+/* Copyright (c) 2006-2011 by OpenLayers Contributors (see authors.txt for 
+ * full list of contributors). Published under the Clear BSD license.  
+ * See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+ * full text of the license. */
+
+/**
+ * @requires OpenLayers/Format/OWSCommon/v1.js
+ */
+
+/**
+ * Class: OpenLayers.Format.OWSCommon.v1_0_0
+ * Parser for OWS Common version 1.0.0.
+ */
+OpenLayers.Format.OWSCommon.v1_0_0 = OpenLayers.Class(OpenLayers.Format.OWSCommon.v1, {
+    
+    /**
+     * Property: namespaces
+     * {Object} Mapping of namespace aliases to namespace URIs.
+     */
+    namespaces: {
+        ows: "http://www.opengis.net/ows",
+        xlink: "http://www.w3.org/1999/xlink"
+    },    
+    
+    /**
+     * Property: readers
+     * Contains public functions, grouped by namespace prefix, that will
+     *     be applied when a namespaced node is found matching the function
+     *     name.  The function will be applied in the scope of this parser
+     *     with two arguments: the node being read and a context object passed
+     *     from the parent.
+     */
+    readers: {
+        "ows": OpenLayers.Util.applyDefaults({
+            "ExceptionReport": function(node, obj) {
+                obj.success = false;
+                obj.exceptionReport = {
+                    version: node.getAttribute('version'),
+                    language: node.getAttribute('language'),
+                    exceptions: []
+                };
+                this.readChildNodes(node, obj.exceptionReport);
+            } 
+        }, OpenLayers.Format.OWSCommon.v1.prototype.readers.ows)
+    },
+
+    /**
+     * Property: writers
+     * As a compliment to the readers property, this structure contains public
+     *     writing functions grouped by namespace alias and named like the
+     *     node names they produce.
+     */
+    writers: {
+        "ows": OpenLayers.Format.OWSCommon.v1.prototype.writers.ows
+    },
+    
+    CLASS_NAME: "OpenLayers.Format.OWSCommon.v1_0_0"
+
+});
+/* ======================================================================
     OpenLayers/Format/WFST/v1_1_0.js
    ====================================================================== */
 
@@ -23518,6 +23981,7 @@ OpenLayers.Format.Filter.v1_1_0 = OpenLayers.Class(
 /**
  * @requires OpenLayers/Format/WFST/v1.js
  * @requires OpenLayers/Format/Filter/v1_1_0.js
+ * @requires OpenLayers/Format/OWSCommon/v1_0_0.js
  */
 
 /**
@@ -23608,7 +24072,8 @@ OpenLayers.Format.WFST.v1_1_0 = OpenLayers.Class(
         }, OpenLayers.Format.WFST.v1.prototype.readers["wfs"]),
         "gml": OpenLayers.Format.GML.v3.prototype.readers["gml"],
         "feature": OpenLayers.Format.GML.v3.prototype.readers["feature"],
-        "ogc": OpenLayers.Format.Filter.v1_1_0.prototype.readers["ogc"]
+        "ogc": OpenLayers.Format.Filter.v1_1_0.prototype.readers["ogc"],
+        "ows": OpenLayers.Format.OWSCommon.v1_0_0.prototype.readers["ows"]
     },
 
     /**
@@ -23946,7 +24411,7 @@ OpenLayers.Renderer = OpenLayers.Class({
      * features - {Array(<OpenLayers.Feature.Vector>)} 
      */
     eraseFeatures: function(features) {
-        if(!(features instanceof Array)) {
+        if(!(OpenLayers.Util.isArray(features))) {
             features = [features];
         }
         for(var i=0, len=features.length; i<len; ++i) {
@@ -24682,7 +25147,7 @@ OpenLayers.Renderer.Canvas = OpenLayers.Class(OpenLayers.Renderer, {
      * features - {Array(<OpenLayers.Feature.Vector>)} 
      */
     eraseFeatures: function(features) {
-        if(!(features instanceof Array)) {
+        if(!(OpenLayers.Util.isArray(features))) {
             features = [features];
         }
         for(var i=0; i<features.length; ++i) {
@@ -26590,7 +27055,7 @@ OpenLayers.Layer.TMS = OpenLayers.Class(OpenLayers.Layer.Grid, {
             this.map.getZoom() + this.zoomOffset;
         var path = this.serviceVersion + "/" + this.layername + "/" + z + "/" + x + "/" + y + "." + this.type; 
         var url = this.url;
-        if (url instanceof Array) {
+        if (OpenLayers.Util.isArray(url)) {
             url = this.selectUrl(path, url);
         }
         return url + path;
@@ -26869,6 +27334,12 @@ OpenLayers.Protocol.Response = OpenLayers.Class({
     priv: null,
 
     /**
+     * Property: error
+     * {Object} The error object in case a service exception was encountered.
+     */
+    error: null,
+
+    /**
      * Constructor: OpenLayers.Protocol.Response
      *
      * Parameters:
@@ -26945,7 +27416,7 @@ OpenLayers.Protocol.WFS = function(options) {
 OpenLayers.Protocol.WFS.fromWMSLayer = function(layer, options) {
     var typeName, featurePrefix;
     var param = layer.params["LAYERS"];
-    var parts = (param instanceof Array ? param[0] : param).split(":");
+    var parts = (OpenLayers.Util.isArray(param) ? param[0] : param).split(":");
     if(parts.length > 1) {
         featurePrefix = parts[0];
     }
@@ -27224,13 +27695,19 @@ OpenLayers.Protocol.WFS.v1 = OpenLayers.Class(OpenLayers.Protocol, {
             var request = response.priv;
             if(request.status >= 200 && request.status < 300) {
                 // success
-                if (options.readOptions && options.readOptions.output == "object") {
-                    OpenLayers.Util.extend(response, 
-                        this.parseResponse(request, options.readOptions));
+                var result = this.parseResponse(request, options.readOptions);
+                if (result && result.success !== false) { 
+                    if (options.readOptions && options.readOptions.output == "object") {
+                        OpenLayers.Util.extend(response, result);
+                    } else {
+                        response.features = result;
+                    }
+                    response.code = OpenLayers.Protocol.Response.SUCCESS;
                 } else {
-                    response.features = this.parseResponse(request, options.readOptions);
+                    // failure (service exception)
+                    response.code = OpenLayers.Protocol.Response.FAILURE;
+                    response.error = result;
                 }
-                response.code = OpenLayers.Protocol.Response.SUCCESS;
             } else {
                 // failure
                 response.code = OpenLayers.Protocol.Response.FAILURE;
@@ -27321,9 +27798,12 @@ OpenLayers.Protocol.WFS.v1 = OpenLayers.Class(OpenLayers.Protocol, {
             var obj = this.format.read(data) || {};
             
             response.insertIds = obj.insertIds || [];
-            response.code = (obj.success) ?
-                OpenLayers.Protocol.Response.SUCCESS :
-                OpenLayers.Protocol.Response.FAILURE;
+            if (obj.success) {
+                response.code = OpenLayers.Protocol.Response.SUCCESS;
+            } else {
+                response.code = OpenLayers.Protocol.Response.FAILURE;
+                response.error = obj;
+            }
             options.callback.call(options.scope, response);
         }
     },
@@ -28939,7 +29419,7 @@ OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
      * options - {Object}
      */
     addFeatures: function(features, options) {
-        if (!(features instanceof Array)) {
+        if (!(OpenLayers.Util.isArray(features))) {
             features = [features];
         }
         
@@ -29028,7 +29508,7 @@ OpenLayers.Layer.Vector = OpenLayers.Class(OpenLayers.Layer, {
         if (features === this.features) {
             return this.removeAllFeatures(options);
         }
-        if (!(features instanceof Array)) {
+        if (!(OpenLayers.Util.isArray(features))) {
             features = [features];
         }
         if (features === this.selectedFeatures) {
@@ -29778,7 +30258,7 @@ OpenLayers.Control.SelectFeature = OpenLayers.Class(OpenLayers.Control, {
      * layers - {<OpenLayers.Layer.Vector>}, or an array of vector layers.
      */
     initLayer: function(layers) {
-        if(layers instanceof Array) {
+        if(OpenLayers.Util.isArray(layers)) {
             this.layers = layers;
             this.layer = new OpenLayers.Layer.Vector.RootContainer(
                 this.id + "_container", {
@@ -35127,7 +35607,7 @@ OpenLayers.Control.WMTSGetFeatureInfo = OpenLayers.Class(OpenLayers.Control, {
         });
         OpenLayers.Util.applyDefaults(params, this.vendorParams);
         return {
-            url: layer.url instanceof Array ? layer.url[0] : layer.url,
+            url: OpenLayers.Util.isArray(layer.url) ? layer.url[0] : layer.url,
             params: OpenLayers.Util.upperCaseObject(params),
             callback: function(request) {
                 this.handleResponse(xy, request, layer);
@@ -37932,7 +38412,7 @@ OpenLayers.Control.WMSGetFeatureInfo = OpenLayers.Class(OpenLayers.Control, {
             layer = candidates[i];
             if(layer instanceof OpenLayers.Layer.WMS &&
                (!this.queryVisible || layer.getVisibility())) {
-                url = layer.url instanceof Array ? layer.url[0] : layer.url;
+                url = OpenLayers.Util.isArray(layer.url) ? layer.url[0] : layer.url;
                 // if the control was not configured with a url, set it
                 // to the first layer url
                 if(this.drillDown === false && !this.url) {
@@ -38053,7 +38533,7 @@ OpenLayers.Control.WMSGetFeatureInfo = OpenLayers.Class(OpenLayers.Control, {
         if (layer.params.STYLES) {
             styleNames = layer.params.STYLES;
         } else {
-            if (layer.params.LAYERS instanceof Array) {
+            if (OpenLayers.Util.isArray(layer.params.LAYERS)) {
                 styleNames = new Array(layer.params.LAYERS.length);
             } else { // Assume it's a String
                 styleNames = layer.params.LAYERS.replace(/[^,]/g, "");
@@ -38101,7 +38581,7 @@ OpenLayers.Control.WMSGetFeatureInfo = OpenLayers.Class(OpenLayers.Control, {
             for(var i=0, len=layers.length; i<len; i++) {
                 var layer = layers[i];
                 var service, found = false;
-                url = layer.url instanceof Array ? layer.url[0] : layer.url;
+                url = OpenLayers.Util.isArray(layer.url) ? layer.url[0] : layer.url;
                 if(url in services) {
                     services[url].push(layer);
                 } else {

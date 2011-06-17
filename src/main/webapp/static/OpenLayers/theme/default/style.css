@@ -1,109 +1,141 @@
+/* Aangepaste versie van default OpenLayers css. */
 div.olMap {
-    z-index: 0;
-    padding: 0 !important;
-    margin: 0 !important;
-    cursor: default;
+	z-index: 0;
+	padding: 0 !important;
+	margin: 0 !important;
+	cursor: default;
 }
 
 div.olMapViewport {
-    text-align: left;
+	text-align: left;
 }
 
 div.olLayerDiv {
-   -moz-user-select: none;
-   -khtml-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
 }
 
 .olControlScale {
-    right: 3px;
-    bottom: 3em;
-    display: block;
-    position: absolute;
-    font-size: smaller;
+	right: 3px;
+	bottom: 3em;
+	display: block;
+	position: absolute;
+	font-size: smaller;
 }
+
 .olControlScaleLine {
-   display: block;
-   position: absolute;
-   left: 10px;
-   bottom: 15px;
-   font-size: xx-small;
+	display: block;
+	position: absolute;
+	left: 10px;
+	bottom: 15px;
+	font-size: xx-small;
 }
+
 .olControlScaleLineBottom {
-   border: solid 2px black;
-   border-bottom: none;
-   margin-top:-2px;
-   text-align: center;
+	border: solid 2px black;
+	border-bottom: none;
+	margin-top: -2px;
+	text-align: center;
 }
+
 .olControlScaleLineTop {
-   border: solid 2px black;
-   border-top: none;
-   text-align: center;
-}
-
-div.olControlMousePosition {
-    bottom: 0em;
-    right: 3px;
-    display: block;
-    position: absolute;
-    font-family: Arial;
-    font-size: smaller;
-}
-
-.olControlOverviewMapContainer {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+	border: solid 2px black;
+	border-top: none;
+	text-align: center;
 }
 
 .olPopupContent {
-    padding:5px;
-    overflow: auto;
-}    
+	padding: 5px;
+	overflow: auto;
+}
 
 .olHandlerBoxZoomBox {
-    border: 2px solid red;
-    position: absolute;
-    background-color: white;
-    opacity: 0.50;
-    font-size: 1px;
-    filter: alpha(opacity=50);
+	border: 2px solid #9900FF;
+	position: absolute;
+	background-color: #9900FF;
+	opacity: 0.50;
+	font-size: 1px;
+	filter: alpha(opacity =         50);
+	border-bottom-color: #6B00B3;
+	border-right-color: #6B00B3;
+	border-top-color: #C266FF;
+	border-left-color: #C266FF;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	box-shadow: 2px 2px 2px #000;
+	-moz-box-shadow: 2px 2px 2px #000;
+	-webkit-box-shadow: 2px 2px 2px #000;
 }
+
 .olHandlerBoxSelectFeature {
-    border: 2px solid blue;
-    position: absolute;
-    background-color: white;
-    opacity: 0.50;
-    font-size: 1px;
-    filter: alpha(opacity=50);
-}   
+	border: 2px solid #9900FF;
+	position: absolute;
+	background-color: #9900FF;
+	opacity: 0.50;
+	font-size: 1px;
+	filter: alpha(opacity =         50);
+}
 
 .olControlNoSelect {
- -moz-user-select: none;
- -khtml-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
 }
 
 .olImageLoadError {
-    background-color: pink;
-    opacity: 0.5;
-    filter: alpha(opacity=50); /* IE */
+	background-color: pink;
+	opacity: 0.5;
+	filter: alpha(opacity =         50); /* IE */
 }
 
 /**
  * Cursor styles
  */
-
 .olCursorWait {
-    cursor: wait;
+	cursor: wait;
 }
+
 .olDragDown {
-    cursor: move;
+	cursor: move;
 }
+
 .olDrawBox {
-    cursor: crosshair;
+	cursor: crosshair;
 }
+
 .olControlDragFeatureOver {
-    cursor: move;
+	cursor: move;
 }
+
 .olControlDragFeatureActive.olControlDragFeatureOver.olDragDown {
-    cursor: -moz-grabbing;
+	cursor: -moz-grabbing;
+}
+
+.olControlLoadingPanel {
+	background-image:
+		url(http://extjs.cachefly.net/ext-3.3.1/resources/images/default/tree/loading.gif);
+	background-repeat: no-repeat;
+	background-color: #E8E8E8;
+	background-position: 5px;
+	display: none;
+	color: #000000;
+	font: normal 12px sans-serif;
+	margin-left: 50px;
+	margin-top: 50px;
+	padding-left: 40px;
+	padding-top: 7px;
+	position: relative;
+	width: 120px;
+	height: 32px;
+	border: solid 1px;
+	border-bottom-color: #aaaaaa;
+	border-right-color: #aaaaaa;
+	border-top-color: #ddd;
+	border-left-color: #ddd;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	box-shadow: 2px 2px 2px #000;
+	-moz-box-shadow: 2px 2px 2px #000;
+	-webkit-box-shadow: 2px 2px 2px #000;
 }

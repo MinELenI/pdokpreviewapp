@@ -67,32 +67,3 @@
 .featureInfo td {
 	background: #FFFFFF;
 }
-
-.olControlLoadingPanel {
-	background-image:
-		url(http://extjs.cachefly.net/ext-3.3.1/resources/images/default/tree/loading.gif);
-	background-repeat: no-repeat;
-	background-color: #E8E8E8;
-	background-position: 5px;
-	display: none;
-	color: #000000;
-	font: normal 12px sans-serif;
-	margin-left: 50px;
-	margin-top: 50px;
-	padding-left: 40px;
-	padding-top: 7px;
-	position: relative;
-	width: 120px;
-	height: 32px;
-	border: solid 1px;
-	border-bottom-color: #aaaaaa;
-	border-right-color: #aaaaaa;
-	border-top-color: #ddd;
-	border-left-color: #ddd;
-	border-radius: 3px;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	box-shadow: 2px 2px 2px #000;
-	-moz-box-shadow: 2px 2px 2px #000;
-	-webkit-box-shadow: 2px 2px 2px #000;
-}

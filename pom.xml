@@ -16,6 +16,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<site.dir.dev>file://${java.io.tmpdir}/maven-sites/${project.artifactId}</site.dir.dev>
 		<openlayers.checkout.url>scm:svn:http://svn.openlayers.org/trunk/openlayers</openlayers.checkout.url>
+
+		<openlayers.compress.build>jsmin</openlayers.compress.build>
 	</properties>
 	<scm>
 		<connection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</connection>
@@ -131,6 +133,45 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>developer-updates</id>
+			<!-- plaatst een nieuwe build in de juiste directory -->
+			<activation>
+				<property>
+					<name>updatesrc</name>
+				</property>
+			</activation>
+			<properties>
+				<openlayers.compress.build>none</openlayers.compress.build>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>copyOpenLayers</id>
+								<phase>process-classes</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<!-- copy necessary files into source for debugging -->
+									<target>
+										<copy
+											file="${project.build.directory}/OLcheckout/build/OpenLayers.js"
+											tofile="${basedir}/src/main/webapp/static/OpenLayers/OpenLayers.js"
+											overwrite="true" verbose="true" />
+									</target>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 	<dependencies>
 		<dependency>
@@ -210,6 +251,7 @@
 							<arguments>
 								<argument>build.py</argument>
 								<argument>${basedir}/customolbuild.cfg</argument>
+								<argument>-c ${openlayers.compress.build}</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -222,7 +264,6 @@
 				<executions>
 					<execution>
 						<phase>process-classes</phase>
-						<!--<phase>prepare-package</phase> -->
 						<goals>
 							<goal>compress</goal>
 						</goals>
