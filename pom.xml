@@ -271,8 +271,7 @@
 							<force>true</force>
 							<nosuffix>true</nosuffix>
 							<excludes>
-								<!-- niet comprimeren -->
-								<!-- <exclude>**/GeoExt-1.0/**</exclude> -->
+								<!-- niet comprimeren of kopieren -->
 								<exclude>OpenLayers.js</exclude>
 								<exclude>settings.js</exclude>
 							</excludes>
