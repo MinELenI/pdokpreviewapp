@@ -295,7 +295,13 @@ Ext
 											new OpenLayers.Control.ScaleLine(),
 											new OpenLayers.Control.KeyboardDefaults(),
 											new OpenLayers.Control.LoadingPanel(),
-											new OpenLayers.Control.Navigation() ],
+											new OpenLayers.Control.Navigation({
+												documentDrag : true,
+												dragPanOptions : {
+													interval : 1,
+													enableKinetic : true
+												}
+											}) ],
 									fractionalZoom : false,
 									zoom : 2
 								}),

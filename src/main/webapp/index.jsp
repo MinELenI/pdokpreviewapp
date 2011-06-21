@@ -7,14 +7,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="shortcut icon" href="static/img/favicon.ico" />
 <link rel="stylesheet" type="text/css"
-	href="http://extjs.cachefly.net/ext-3.4.0/resources/css/ext-all.css" media="all" />
+	href="http://extjs.cachefly.net/ext-3.4.0/resources/css/ext-all.css"
+	media="all" />
 <link rel="stylesheet" type="text/css"
-	href="http://extjs.cachefly.net/ext-3.4.0/resources/css/xtheme-gray.css" media="all" />
+	href="http://extjs.cachefly.net/ext-3.4.0/resources/css/xtheme-gray.css"
+	media="all" />
 <link rel="stylesheet" href="static/css/style.css" type="text/css"
 	media="all" />
-<!--[if lte IE 7]>
-		<link rel="stylesheet" href="static/css/ie.css" type="text/css" media="all" />
-	<![endif]-->
 <!--[if gte IE 8]>
 		<link rel="stylesheet" href="static/css/ie-8.css" type="text/css" media="all" />
 	<![endif]-->
@@ -22,7 +21,6 @@
 	media="print" />
 </head>
 <body>
-
 	<p class="notabene">
 		<img src="static/img/logo.png" alt="logo" height="48" id="logo"
 			title="logo" width="48" class="logo" />Voor deze applicatie is een
@@ -46,11 +44,12 @@
 	</div>
 
 
-	<script src="http://extjs.cachefly.net/ext-3.4.0/adapter/ext/ext-base.js"
+	<script
+		src="http://extjs.cachefly.net/ext-3.4.0/adapter/ext/ext-base.js"
 		type="text/javascript"></script>
-	<script src="http://extjs.cachefly.net/ext-3.4.0/ext-all.js" type="text/javascript"></script>
-	<script src="static/OpenLayers/OpenLayers.js"
+	<script src="http://extjs.cachefly.net/ext-3.4.0/ext-all.js"
 		type="text/javascript"></script>
+	<script src="static/OpenLayers/OpenLayers.js" type="text/javascript"></script>
 	<script src="static/GeoExt-1.0/script/GeoExt.js" type="text/javascript"></script>
 	<script src="static/js/LoadingPanel.js" type="text/javascript"></script>
 	<script src="static/js/settings.js" type="text/javascript"></script>
