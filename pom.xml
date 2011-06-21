@@ -150,7 +150,7 @@
 									<goal>run</goal>
 								</goals>
 								<configuration>
-									<!-- copy necessary files into source for debugging -->
+									<!-- copy OL files naar source voor debugging -->
 									<target>
 										<copy file="${project.build.directory}/OLcheckout/build/OpenLayers.js" tofile="${basedir}/src/main/webapp/static/OpenLayers/OpenLayers.js" overwrite="true" verbose="true" />
 									</target>
@@ -184,7 +184,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
-				<!-- 1.0-beta-4 -->
 				<version>1.0</version>
 				<executions>
 					<execution>
@@ -227,14 +226,14 @@
 				<version>1.2</version>
 				<executions>
 					<execution>
-						<!-- build single file openlayers -->
+						<!-- single file openlayers build-->
 						<id>buildOpenLayers</id>
 						<goals>
 							<goal>exec</goal>
 						</goals>
 						<phase>compile</phase>
 						<configuration>
-							<!-- python executable needs to be in the path -->
+							<!-- python executable moet in pad staan -->
 							<executable>python</executable>
 							<workingDirectory>${project.build.directory}/OLcheckout/build</workingDirectory>
 							<arguments>
@@ -281,7 +280,7 @@
 							<goal>run</goal>
 						</goals>
 						<configuration>
-							<!-- copy necessary files into build -->
+							<!-- copy files voor de war -->
 							<target>
 								<copy file="${basedir}/src/main/webapp/static/js/settings.js" tofile="${project.build.directory}/pdokpreviewapp/static/js/settings.js" overwrite="true" verbose="true" />
 								<copy file="${project.build.directory}/OLcheckout/build/OpenLayers.js" tofile="${project.build.directory}/pdokpreviewapp/static/OpenLayers/OpenLayers.js" overwrite="true" verbose="true" />
