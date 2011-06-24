@@ -7,7 +7,6 @@
     response.setContentType("application/json");
     StringBuilder sb = new StringBuilder();
     // inlezen config file
-    log("loading services input.");
     BufferedReader input = new BufferedReader(new FileReader(
             getServletContext().getRealPath("services.txt")));
 

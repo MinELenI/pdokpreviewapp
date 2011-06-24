@@ -60,7 +60,7 @@
 			(SCM revisie:
 			<jsp:expression>atts.getValue("SCM-Revision")</jsp:expression>)
 		</p>
-		<p>
+		<!-- <p>
 			Deze applicatie draait op host:
 			<jsp:expression>request.getLocalAddr()</jsp:expression>:<jsp:expression>request.getLocalPort()</jsp:expression>
 			(<jsp:expression>request.getLocalName()</jsp:expression>) en is benaderd vanaf:
@@ -71,7 +71,7 @@
 			Server info:
 			<jsp:expression>getServletContext().getServerInfo()</jsp:expression>,
 			Java Servlet API <jsp:expression>getServletContext().getMajorVersion()</jsp:expression>.<jsp:expression>getServletContext().getMinorVersion()</jsp:expression>
-		</p>
+		</p> -->
 	</div>
 </body>
 	</html>

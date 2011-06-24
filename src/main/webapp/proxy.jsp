@@ -13,10 +13,10 @@
             "http://geodata.nationaalgeoregister.nl/" // NOTE - no comma after the last item
     };%>
 <%
+	String reqUrl = "";
     try {
-        String reqUrl = request.getQueryString();
+         reqUrl = request.getQueryString();
         reqUrl = URLDecoder.decode(reqUrl, "UTF-8");
-        log("DEBUG: request voor url: "+reqUrl);
         boolean allowed = false;
         String token = null;
         for (String surl : serverUrls) {
@@ -79,7 +79,7 @@
             ostream.write(bytes, 0, bytesRead);
         }
     } catch (Exception e) {
-        log("Fout met ophalen van url.", e);
+        log("Fout met ophalen van url. ("+ reqUrl +")", e);
         response.setStatus(500);
     }
 %>

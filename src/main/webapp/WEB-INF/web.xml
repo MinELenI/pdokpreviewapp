@@ -4,5 +4,5 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="previewapp">
 	<display-name>PDOK Preview Applicatie</display-name>
-	<description>Webapplicatie voor de PDOK services</description>
+	<description>Webapplicatie om de PDOK services te bekijken.</description>
 </web-app>

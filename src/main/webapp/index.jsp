@@ -25,22 +25,28 @@
 		<img src="static/img/logo.png" alt="logo" height="48" id="logo"
 			title="logo" width="48" class="logo" />Voor deze applicatie is een
 		moderne browser met CSS en JavaScript ondersteuning nodig, het kan
-		even duren voordat de applicatie volledig is geladen.
+		even duren voordat de applicatie volledig is geladen. <img
+			src="http://extjs.cachefly.net/ext-3.3.1/resources/images/default/tree/loading.gif"
+			alt="loading..." height="16" width="16" />
 	</p>
 	<div id="desc" class="uitleg">
 		<h1>PDOK Preview applicatie</h1>
 		<p>Aan de linkerkant van de pagina bevindt zich een lijst met
-			services.</p>
+			beschikbare services, "Overlays". Tevens een aantal basiskaarten
+			("Base Layer") waarvan er een kan worden gekozen als achtergrond.</p>
 		<p>
 			Een service kan "aangezet" worden met de checkbox, de legenda
 			(onderaan het scherm) wordt dan ook bijgewerkt (mits het type service
-			dat ondersteund). <em>Let op: Veel services zijn schaal
-				afhankelijk; WFS services worden pas zichtbaar boven nivo 7.</em>
+			dat ondersteund). <em>Let op: Een aantal services zijn hebben
+				een afhankelijke weergave; WFS services worden pas zichtbaar boven
+				nivo 7.</em>
 		</p>
 		<p>Met de radio button kan een service "actief" worden gemaakt,
-			van een actieve service kan feature informatie worden opgevraagd.</p>
+			van een actieve service kan feature informatie worden opgevraagd door
+			op features te klikken in de kaart. De feature informatie dialoog kan
+			met met de muis behulp van de escape toets worden gesloten.</p>
 		<p>Door een service te selecteren wordt het capabilities document
-			opgehaald en getoond</p>
+			opgehaald en getoond in het tabblad onder de kaart.</p>
 	</div>
 
 

@@ -328,7 +328,7 @@ Ext
 							y : 20,
 							plugins : new GeoExt.ZoomSliderTip(
 									{
-										template : "Schaal: 1 : {scale}<br />Resolutie: {resolution}<br />nivo: {zoom}"
+										template : "Schaal: 1 : {scale}<br />Resolutie: {resolution}<br />Schaal nivo: {zoom}"
 									})
 						} ]
 					});
@@ -621,7 +621,8 @@ Ext
 						collapseMode : "mini",
 						split : true,
 						width : 200,
-						title : "Uitleg"
+						title : "Uitleg",
+						autoScroll : true
 					} ]
 				}
 			});

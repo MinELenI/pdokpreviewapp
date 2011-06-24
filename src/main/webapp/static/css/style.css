@@ -1,18 +1,30 @@
 .uitleg {
-	font-family: sans-serif;
+	font: normal 11px arial, tahoma, helvetica, sans-serif;
+	overflow-y: auto;
 }
 
 .uitleg p {
 	margin-top: 4px;
-	font: normal 11px arial, tahoma, helvetica, sans-serif;
 }
 
 .uitleg p em {
 	font-style: italic;
+	display: block;
+	text-indent: 8px;
 }
 
 .uitleg p img {
 	float: left;
+}
+
+.uitleg h1,.uitleg h2 {
+	color: #333;
+	font: bold 11px arial, tahoma, helvetica, sans-serif;
+	line-height: 18px;
+}
+
+.uitleg h1 {
+	font-size: 15px;
 }
 
 .capsPanel {
