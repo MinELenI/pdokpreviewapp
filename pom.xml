@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nl.pdok</groupId>
 	<artifactId>pdokpreviewapp</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>PDOK services preview applicatie</name>
 	<description>Preview applicatie tbv. PDOK services.</description>
 	<url>http://sourceforge.net/p/pdokpreviewapp/home/</url>
@@ -19,9 +18,9 @@
 		<openlayers.compress.build>jsmin</openlayers.compress.build>
 	</properties>
 	<scm>
-		<connection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</connection>
-		<developerConnection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</developerConnection>
-		<url>https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</url>
+		<connection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/tags/pdokpreviewapp-1.0</connection>
+		<developerConnection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/tags/pdokpreviewapp-1.0</developerConnection>
+		<url>https://svn.code.sf.net/p/pdokpreviewapp/code/tags/pdokpreviewapp-1.0</url>
 		<tag>trunk</tag>
 	</scm>
 	<developers>
@@ -100,8 +99,7 @@
 									<maxIdleTime>60000</maxIdleTime>
 								</connector>
 							</connectors>
-							<webAppConfig
-								implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
+							<webAppConfig implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
 								<sessionHandler implementation="org.mortbay.jetty.servlet.SessionHandler">
 									<sessionManager implementation="org.mortbay.jetty.servlet.HashSessionManager">
 										<usingCookies>false</usingCookies>
@@ -155,10 +153,7 @@
 								<configuration>
 									<!-- copy OL files naar source voor debugging -->
 									<target>
-										<copy
-											file="${project.build.directory}/OLcheckout/build/OpenLayers.js"
-											tofile="${basedir}/src/main/webapp/static/OpenLayers/OpenLayers.js"
-											overwrite="true" verbose="true" />
+										<copy file="${project.build.directory}/OLcheckout/build/OpenLayers.js" tofile="${basedir}/src/main/webapp/static/OpenLayers/OpenLayers.js" overwrite="true" verbose="true" />
 									</target>
 								</configuration>
 							</execution>
@@ -288,13 +283,8 @@
 						<configuration>
 							<!-- copy files voor de war -->
 							<target>
-								<copy file="${basedir}/src/main/webapp/static/js/settings.js"
-									tofile="${project.build.directory}/pdokpreviewapp/static/js/settings.js"
-									overwrite="true" verbose="true" />
-								<copy
-									file="${project.build.directory}/OLcheckout/build/OpenLayers.js"
-									tofile="${project.build.directory}/pdokpreviewapp/static/OpenLayers/OpenLayers.js"
-									overwrite="true" verbose="true" />
+								<copy file="${basedir}/src/main/webapp/static/js/settings.js" tofile="${project.build.directory}/pdokpreviewapp/static/js/settings.js" overwrite="true" verbose="true" />
+								<copy file="${project.build.directory}/OLcheckout/build/OpenLayers.js" tofile="${project.build.directory}/pdokpreviewapp/static/OpenLayers/OpenLayers.js" overwrite="true" verbose="true" />
 							</target>
 						</configuration>
 					</execution>
