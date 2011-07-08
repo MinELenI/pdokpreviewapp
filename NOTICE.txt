@@ -8,3 +8,6 @@ Dit project gebruikt delen van GeoExt welke onder de BSD licentie valt, zie: htt
 
 = ExtJS =
 Dit project gebruikt delen van ExtJS welke onder de GPL 3 licentie valt, zie: http://www.sencha.com/products/license.php voor details.
+
+= Heron MC / geoext-viewer =
+Dit project gebruikt delen van Heron MC / geoext-viewer welke onder de GPL 3 licentie valt, zie: http://code.google.com/p/geoext-viewer/source/browse/trunk/license.txt voor details.

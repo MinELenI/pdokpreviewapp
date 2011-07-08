@@ -16,6 +16,6 @@ naam=NWB-wegen; url=http://acceptatie.geodata.nationaalgeoregister.nl/nwbwegen/o
 naam=NWB-vaarwegen; url=http://acceptatie.geodata.nationaalgeoregister.nl/nwbvaarwegen/ows; type=wms; layers=vaarwegvakken,kmmarkeringen
 naam=Top50NL; url=http://acceptatie.geodata.nationaalgeoregister.nl/top50nl/ows; type=wms; layers=wegdeel_polygon,waterdeel_polygon,wegdeel_line,gebouw_point,gebouw_polygon,spoorbaandeel_line,inrichtingselement_line,waterdeel_line,terrein,wegdeel_point,inrichtingselement_point
 naam=Top10NL; url=http://acceptatie.geodata.nationaalgeoregister.nl/top10nl/ows; type=wms; layers=functioneelgebied_labels,wegdeelvakken,waterdeel_vlakken,geo_labels,inrichtingselement_punten,gebouwen,spoorbaandeel_lijnen,inrichtingselementlijnen,waterdeellijnen,terreinen
-//naam=gazetteer; url=http://acceptatie.geodata.nationaalgeoregister.nl/geocoder; type=ols; layers=zoekterm
-//naam=openrouteservice; url=http://www.openrouteservice.org/php/OpenLSLUS_Geocode.php; type=ols;layers=FreeFormAdress
+naam=Gazetteer; url=http://acceptatie.geodata.nationaalgeoregister.nl/geocoder/Geocoder; type=ols; layers=zoekterm
+//naam=OpenRoute service; url=http://www.openrouteservice.org/php/OpenLSLUS_Geocode.php; type=ols;layers=FreeFormAdress
 /* geen lege regels hierna */

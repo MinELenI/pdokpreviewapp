@@ -58,6 +58,10 @@
 	<script src="static/OpenLayers/OpenLayers.js" type="text/javascript"></script>
 	<script src="static/GeoExt-1.0/script/GeoExt.js" type="text/javascript"></script>
 	<script src="static/js/LoadingPanel.js" type="text/javascript"></script>
+	<script src="static/Heron-MC/OpenLS_XLSReader.js"
+		type="text/javascript"></script>
+	<script src="static/Heron-MC/OpenLSSearchCombo.js"
+		type="text/javascript"></script>
 	<script src="static/js/settings.js" type="text/javascript"></script>
 	<script src="static/js/map.js" type="text/javascript"></script>
 </body>

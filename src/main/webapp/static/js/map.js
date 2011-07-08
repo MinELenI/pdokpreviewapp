@@ -69,11 +69,6 @@ function addWFS(conf) {
 		fType = fTypePrefx = conf.layers[0];
 	}
 
-	// TODO er zit een bug in pdok namespaces, natura2000 eindigd op .nl/ de
-	// rest op .nl
-	if (NAMESPACE_SLASH_EXCEPTIONS.indexOf(fTypePrefx) > -1) {
-		slash = '/';
-	}
 	// random kleurtje aanmaken
 	colour = '#'
 			+ ('000000' + Math.round(0xffffff * Math.random()).toString(16))
@@ -86,7 +81,7 @@ function addWFS(conf) {
 		protocol : new OpenLayers.Protocol.WFS({
 			url : conf.url,
 			srsName : 'EPSG:28992',
-			version : '1.1.0',
+			version : '1.0.0',
 			geometryName : 'geom',
 			featureNS : 'http://' + fTypePrefx + '.geonovum.nl' + slash,
 			featureType : fType,
@@ -199,8 +194,34 @@ function addWMTS(conf) {
  *            mapservice config object
  */
 function addOLS(conf) {
-	OpenLayers.Console.info('Niet geimplementeerd: toevoegen OLS: ' + conf.type
-			+ 'layer: ', conf.naam);
+	tabs
+			.insert(
+					2,
+					new Ext.Panel(
+							{
+								title : conf.naam,
+								bodyStyle : 'padding:5px',
+								cls : 'olsPanel uitleg',
+								iconCls : 'olsPanelicon',
+								autoScroll : true,
+								items : [
+										new Ext.Panel(
+												{
+													bodyStyle : 'padding:5px',
+													cls : 'uitleg',
+													border : false,
+													html : '<h1>Open LS</h1><p>Zoek een adres of plaats met behulp van de Open LS service.</p>'
+												}),
+										new Heron.widgets.OpenLSSearchCombo(
+												{
+													url : conf.url,
+													queryParam : conf.layers,
+													map : mapPanel.map,
+													queryDelay : 500,
+													loadingText : 'Zoeken...',
+													emptyText : 'Vul een plaats of adres in, het zoeken begint vanzelf.'
+												}) ]
+							}));
 }
 
 /** map panel. */
@@ -575,12 +596,15 @@ Ext
 				},
 				bodyStyle : 'padding:5px',
 				autoScroll : true,
-				title : "Legenda"
+				title : "Legenda",
+				iconCls : 'legendaIcon'
+
 			});
 			capsPanel = new Ext.Panel({
 				title : 'Capabilities',
 				bodyStyle : 'padding:5px',
 				cls : 'capsPanel',
+				iconCls : 'capsPanelIcon',
 				autoScroll : true,
 				html : 'Capabilities van geselecteerde service.'
 			});

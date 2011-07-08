@@ -31,12 +31,30 @@
 	font-family: monospace;
 }
 
+.capsPanelIcon {
+	background:
+		url(http://extjs.cachefly.net/ext-3.4.0/resources/images/default/grid/columns.gif)
+		0 3px no-repeat !important;
+}
+
 .versiePanel {
 	
 }
 
 .olsPanel {
 	
+}
+
+.olsPanelicon {
+	background:
+		url(http://extjs.cachefly.net/ext-3.4.0/resources/images/default/tree/leaf.gif)
+		0 3px no-repeat !important;
+}
+
+.legendaIcon {
+	background:
+		url(http://extjs.cachefly.net/ext-3.4.0/resources/images/default/grid/hd-pop.gif)
+		0 6px no-repeat !important;
 }
 
 .notabene {
@@ -72,7 +90,7 @@
 	background: #EEEEEE;
 }
 
-.featureInfo tr.odd td {
+.featureInfo .odd td {
 	background: #EEEEEE;
 }
 
