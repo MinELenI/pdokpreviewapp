@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nl.pdok</groupId>
 	<artifactId>pdokpreviewapp</artifactId>
@@ -21,6 +22,7 @@
 		<connection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</connection>
 		<developerConnection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</developerConnection>
 		<url>https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</url>
+		<tag>trunk</tag>
 	</scm>
 	<developers>
 		<developer>
@@ -98,7 +100,8 @@
 									<maxIdleTime>60000</maxIdleTime>
 								</connector>
 							</connectors>
-							<webAppConfig implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
+							<webAppConfig
+								implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
 								<sessionHandler implementation="org.mortbay.jetty.servlet.SessionHandler">
 									<sessionManager implementation="org.mortbay.jetty.servlet.HashSessionManager">
 										<usingCookies>false</usingCookies>
@@ -152,7 +155,10 @@
 								<configuration>
 									<!-- copy OL files naar source voor debugging -->
 									<target>
-										<copy file="${project.build.directory}/OLcheckout/build/OpenLayers.js" tofile="${basedir}/src/main/webapp/static/OpenLayers/OpenLayers.js" overwrite="true" verbose="true" />
+										<copy
+											file="${project.build.directory}/OLcheckout/build/OpenLayers.js"
+											tofile="${basedir}/src/main/webapp/static/OpenLayers/OpenLayers.js"
+											overwrite="true" verbose="true" />
 									</target>
 								</configuration>
 							</execution>
@@ -226,7 +232,7 @@
 				<version>1.2</version>
 				<executions>
 					<execution>
-						<!-- single file openlayers build-->
+						<!-- single file openlayers build -->
 						<id>buildOpenLayers</id>
 						<goals>
 							<goal>exec</goal>
@@ -282,8 +288,13 @@
 						<configuration>
 							<!-- copy files voor de war -->
 							<target>
-								<copy file="${basedir}/src/main/webapp/static/js/settings.js" tofile="${project.build.directory}/pdokpreviewapp/static/js/settings.js" overwrite="true" verbose="true" />
-								<copy file="${project.build.directory}/OLcheckout/build/OpenLayers.js" tofile="${project.build.directory}/pdokpreviewapp/static/OpenLayers/OpenLayers.js" overwrite="true" verbose="true" />
+								<copy file="${basedir}/src/main/webapp/static/js/settings.js"
+									tofile="${project.build.directory}/pdokpreviewapp/static/js/settings.js"
+									overwrite="true" verbose="true" />
+								<copy
+									file="${project.build.directory}/OLcheckout/build/OpenLayers.js"
+									tofile="${project.build.directory}/pdokpreviewapp/static/OpenLayers/OpenLayers.js"
+									overwrite="true" verbose="true" />
 							</target>
 						</configuration>
 					</execution>
@@ -313,5 +324,63 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-scm-plugin</artifactId>
+										<versionRange>[1.5,)</versionRange>
+										<goals>
+											<goal>checkout</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>exec-maven-plugin</artifactId>
+										<versionRange>[1.2,)
+										</versionRange>
+										<goals>
+											<goal>exec</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>net.alchim31.maven</groupId>
+										<artifactId>yuicompressor-maven-plugin</artifactId>
+										<versionRange>[1.2,)</versionRange>
+										<goals>
+											<goal>compress</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>
