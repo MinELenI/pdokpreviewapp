@@ -217,7 +217,9 @@ function addOLS(conf) {
 													url : conf.url,
 													queryParam : conf.layers,
 													map : mapPanel.map,
-													queryDelay : 500,
+													queryDelay : 400,
+													width : 500,
+													listWidth : 600,
 													loadingText : 'Zoeken...',
 													emptyText : 'Vul een plaats of adres in, het zoeken begint vanzelf.'
 												}) ]
