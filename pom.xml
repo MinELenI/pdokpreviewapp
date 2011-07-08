@@ -3,7 +3,7 @@
 	<groupId>nl.pdok</groupId>
 	<artifactId>pdokpreviewapp</artifactId>
 	<packaging>war</packaging>
-	<version>1.0</version>
+	<version>1.1-SNAPSHOT</version>
 	<name>PDOK services preview applicatie</name>
 	<description>Preview applicatie tbv. PDOK services.</description>
 	<url>http://sourceforge.net/p/pdokpreviewapp/home/</url>
@@ -18,10 +18,9 @@
 		<openlayers.compress.build>jsmin</openlayers.compress.build>
 	</properties>
 	<scm>
-		<connection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/tags/pdokpreviewapp-1.0</connection>
-		<developerConnection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/tags/pdokpreviewapp-1.0</developerConnection>
-		<url>https://svn.code.sf.net/p/pdokpreviewapp/code/tags/pdokpreviewapp-1.0</url>
-		<tag>trunk</tag>
+		<connection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</connection>
+		<developerConnection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</developerConnection>
+		<url>https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</url>
 	</scm>
 	<developers>
 		<developer>
