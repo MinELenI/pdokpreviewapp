@@ -257,6 +257,9 @@ function getCapabilities(layer) {
 	var url = OpenLayers.ProxyHost + '';
 	if (typeof layer == 'undefined') {
 		return;
+	} else if (layer.CLASS_NAME === 'OpenLayers.Layer') {
+		/* dummy layer */
+		return;
 	} else if (layer.CLASS_NAME === 'OpenLayers.Layer.TMS') {
 		// TMS is een "bijzonder" geval
 		url += layer.getFullRequestString() + layer.serviceVersion;
@@ -342,7 +345,10 @@ Ext
 										TOP10NL_TMS_URL, {
 											layername : 'top10nl',
 											type : 'png8'
-										}) ],
+										}), new OpenLayers.Layer('Geen', {
+									isBaseLayer : true,
+									displayInLayerSwitcher : true
+								}) ],
 						items : [ {
 							xtype : "gx_zoomslider",
 							vertical : true,
