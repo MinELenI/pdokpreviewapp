@@ -51,6 +51,12 @@
 			<comments>Voor alle delen van GeoExt</comments>
 			<distribution>manual</distribution>
 		</license>
+		<license>
+			<name>GNU General Public License</name>
+			<url>http://code.google.com/p/geoext-viewer/source/browse/trunk/license.txt</url>
+			<comments>Voor alle delen van Heron MC</comments>
+			<distribution>manual</distribution>
+		</license>
 	</licenses>
 	<ciManagement>
 		<system>CruiseControl</system>
@@ -181,6 +187,21 @@
 		<finalName>${project.artifactId}</finalName>
 		<defaultGoal>package</defaultGoal>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${basedir}/src/main/webapp/static/OpenLayers/</directory>
+							<includes>
+								<include>OpenLayers.js</include>
+							</includes>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
@@ -348,7 +369,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
+										<execute />
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -361,8 +382,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore />
-
+										<execute />
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
