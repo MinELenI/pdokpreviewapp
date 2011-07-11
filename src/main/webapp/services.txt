@@ -5,17 +5,21 @@ naam=Wetlands; url=http://acceptatie.geodata.nationaalgeoregister.nl/wetlands/ow
 naam=Natura 2000; url=http://acceptatie.geodata.nationaalgeoregister.nl/natura2000/ows; type=wms; layers=natura2000
 naam=Natura 2000 WMTS; url=http://geodata.nationaalgeoregister.nl/tiles/service/wmts/natura2000;layers=natura2000;type=wmts
 naam=Natura 2000 WFS; url=http://acceptatie.geodata.nationaalgeoregister.nl/natura2000/wfs; type=wfs; layers=natura2000
+naam=NOK2010; url=http://test.geodata.nationaalgeoregister.nl/nok2010/ows; type=wms; layers=bbl_buiten,ehs,rods
 naam=Nationaleparken; url=http://acceptatie.geodata.nationaalgeoregister.nl/nationaleparken/ows;layers=nationaleparken;type=wms
 naam=Nationaleparken WFS; url=http://acceptatie.geodata.nationaalgeoregister.nl/nationaleparken/wfs;layers=nationaleparken; type=wfs
 naam=Bestuurlijke Grenzen; url=http://acceptatie.geodata.nationaalgeoregister.nl/bestuurlijkegrenzen/ows;layers=top10nlprovinciegrenzen,top10nlnationalegrenzen,gemeenten,wijken,buurten; type=wms
 naam=Vin WMS; url=http://acceptatie.geodata.nationaalgeoregister.nl/vin/ows; type=wms; layers=bevaarbaarheid
 naam=Vin WFS; url=http://acceptatie.geodata.nationaalgeoregister.nl/vin/wfs; type=wfs; layers=vin:bevaarbaarheid
 naam=Nhi; url=http://acceptatie.geodata.nationaalgeoregister.nl/nhi/ows; type=wms; layers=dmlniks,dmnodes
-naam=Top10NL WMTS; url=http://geodata.nationaalgeoregister.nl/tiles/service/wmts/top10nl;layers=top10nl;type=wmts
 naam=NWB-wegen; url=http://acceptatie.geodata.nationaalgeoregister.nl/nwbwegen/ows; type=wms; layers=wegvakken,hectopunten
 naam=NWB-vaarwegen; url=http://acceptatie.geodata.nationaalgeoregister.nl/nwbvaarwegen/ows; type=wms; layers=vaarwegvakken,kmmarkeringen
+naam=NWB-Spoorwegen; url=http://test.geodata.nationaalgeoregister.nl/nwbspoorwegen/ows; type=wms; layers=hectopunten,overgangen,oversteken,spoorvakken,treinstations
 naam=Top50NL; url=http://acceptatie.geodata.nationaalgeoregister.nl/top50nl/ows; type=wms; layers=wegdeel_polygon,waterdeel_polygon,wegdeel_line,gebouw_point,gebouw_polygon,spoorbaandeel_line,inrichtingselement_line,waterdeel_line,terrein,wegdeel_point,inrichtingselement_point
+naam=Top10NL WMTS; url=http://acceptatie.geodata.nationaalgeoregister.nl/tiles/service/wmts/top10nl;layers=top10nl;type=wmts
 naam=Top10NL; url=http://acceptatie.geodata.nationaalgeoregister.nl/top10nl/ows; type=wms; layers=functioneelgebied_labels,wegdeelvakken,waterdeel_vlakken,geo_labels,inrichtingselement_punten,gebouwen,spoorbaandeel_lijnen,inrichtingselementlijnen,waterdeellijnen,terreinen
 naam=Gazetteer; url=http://acceptatie.geodata.nationaalgeoregister.nl/geocoder/Geocoder; type=ols; layers=zoekterm
 //naam=OpenRoute service; url=http://www.openrouteservice.org/php/OpenLSLUS_Geocode.php; type=ols;layers=FreeFormAdress
+naam=Ahn25m; url=http://acceptatie.geodata.nationaalgeoregister.nl/ahn25m/ows; type=wms; layers=bladindex,puntdichtheidgebieden,stadspolygonen,vlieglijnen,ahn25m
+naam=Digitaal Topografisch Bestand; url=http://acceptatie.geodata.nationaalgeoregister.nl/digitaaltopografischbestand/ows; type=wms; layers=dtb_lin,dtb_reg,dtb_sym
 /* geen lege regels hierna */
