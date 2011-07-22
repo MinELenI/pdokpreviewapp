@@ -139,7 +139,8 @@ function addWFS(conf) {
 						width : 250,
 						height : 250,
 						autoScroll : true,
-						maximizable : true,
+						maximizable : false,
+						unpinnable : false,
 						modal : true,
 						map : mapPanel.map,
 						// feature selected heeft geen event.xy
@@ -341,10 +342,21 @@ Ext
 											layername : 'brtachtergrondkaart',
 											type : 'png8'
 										}),
-								new OpenLayers.Layer.TMS('Top10NL (TMS)',
+								new OpenLayers.Layer.TMS('top 10 (TMS)',
 										TOP10NL_TMS_URL, {
 											layername : 'top10nl',
-											type : 'png8'
+											type : 'png8',
+											/*
+											 * van de top10 zijn niet alle
+											 * resoluties aanwezig
+											 */
+											resolutions : [ 13.44, 6.72, 3.36,
+													1.68, 0.84, 0.42 ],
+											serverResolutions : [ 3440.64,
+													1720.32, 860.16, 430.08,
+													215.04, 107.52, 53.76,
+													26.88, 13.44, 6.72, 3.36,
+													1.68, 0.84, 0.42 ]
 										}), new OpenLayers.Layer('Geen', {
 									isBaseLayer : true,
 									displayInLayerSwitcher : true
@@ -357,7 +369,7 @@ Ext
 							y : 20,
 							plugins : new GeoExt.ZoomSliderTip(
 									{
-										template : "Schaal: 1 : {scale}<br />Resolutie: {resolution}<br />Schaal nivo: {zoom}"
+										template : "Schaal: 1:{scale}<br />Resolutie: {resolution}<br />Schaal nivo: {zoom}"
 									})
 						} ]
 					});
@@ -435,13 +447,14 @@ Ext
 										width : 500,
 										height : 150,
 										autoScroll : true,
-										maximizable : true,
+										maximizable : false,
+										unpinnable : false,
 										modal : true,
 										map : mapPanel.map,
 										location : event.xy,
 										// geoserver geeft altijd een html doc
 										// terug dus dit komt eigenlijk niet
-										// voor
+										// voor...
 										html : (event.text === "" ? "Er zijn geen objecten in de kaart gevonden"
 												: event.text)
 									}).show();
