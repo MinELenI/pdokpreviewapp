@@ -299,16 +299,15 @@ function getCapabilities(layer) {
 // na laden van de pagina starten met opbouw van applicatie
 Ext
 		.onReady(function() {
+			var tmsResolutions = [ 3440.64, 1720.32, 860.16, 430.08, 215.04,
+					107.52, 53.76, 26.88, 13.44, 6.72, 3.36, 1.68, 0.84, 0.42 ];
 			// mappanel
 			mapPanel = new GeoExt.MapPanel(
 					{
 						map : new OpenLayers.Map(
 								{
 									allOverlays : false,
-									resolutions : [ 3440.64, 1720.32, 860.16,
-											430.08, 215.04, 107.52, 53.76,
-											26.88, 13.44, 6.72, 3.36, 1.68,
-											0.84, 0.42 ],
+									resolutions : tmsResolutions,
 									projection : new OpenLayers.Projection(
 											'EPSG:28992'),
 									displayProjection : new OpenLayers.Projection(
@@ -340,7 +339,9 @@ Ext
 										'BRT Achtergrondkaart (TMS)',
 										BRT_ACHTERGRONDKAART_TMS_URL, {
 											layername : 'brtachtergrondkaart',
-											type : 'png8'
+											type : 'png8',
+											resolutions : tmsResolutions,
+											serverResolutions : tmsResolutions
 										}),
 								new OpenLayers.Layer.TMS('top 10 (TMS)',
 										TOP10NL_TMS_URL, {
@@ -352,11 +353,7 @@ Ext
 											 */
 											resolutions : [ 13.44, 6.72, 3.36,
 													1.68, 0.84, 0.42 ],
-											serverResolutions : [ 3440.64,
-													1720.32, 860.16, 430.08,
-													215.04, 107.52, 53.76,
-													26.88, 13.44, 6.72, 3.36,
-													1.68, 0.84, 0.42 ]
+											serverResolutions : tmsResolutions
 										}), new OpenLayers.Layer('Geen', {
 									isBaseLayer : true,
 									displayInLayerSwitcher : true
@@ -488,7 +485,8 @@ Ext
 										width : 500,
 										height : 150,
 										autoScroll : true,
-										maximizable : true,
+										maximizable : false,
+										unpinnable : false,
 										modal : true,
 										map : mapPanel.map,
 										location : event.xy,
@@ -545,7 +543,7 @@ Ext
 						border : true,
 						region : "west",
 						title : "Services",
-						width : 200,
+						width : 320,
 						split : true,
 						collapsible : true,
 						collapseMode : "mini",
@@ -671,5 +669,4 @@ Ext
 					} ]
 				}
 			});
-
 		});
