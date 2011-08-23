@@ -1,4 +1,5 @@
 == OPMERKINGEN ==
+Dit project wordt verspreid onder versie 3 van de GNU General Public License (GPL v. 3), zie het bestand COPYING.txt
 
 = OpenLayers =
 Dit project gebruikt delen van OpenLayers welke onder de Clear BSD licentie valt, zie: http://svn.openlayers.org/trunk/openlayers/license.txt voor details.

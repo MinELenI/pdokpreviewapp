@@ -1,11 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nl.pdok</groupId>
 	<artifactId>pdokpreviewapp</artifactId>
 	<packaging>war</packaging>
 	<version>1.2-SNAPSHOT</version>
 	<name>PDOK services preview applicatie</name>
-	<description>Preview applicatie tbv. PDOK services.</description>
+	<description>Preview applicatie tbv. PDOK en INSPIRE view services.</description>
 	<url>http://sourceforge.net/p/pdokpreviewapp/home/</url>
 	<inceptionYear>2011</inceptionYear>
 	<prerequisites>
@@ -15,7 +16,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<site.dir.dev>file://${java.io.tmpdir}/maven-sites/${project.artifactId}</site.dir.dev>
 		<openlayers.checkout.url>scm:svn:http://svn.openlayers.org/trunk/openlayers</openlayers.checkout.url>
-		<openlayers.compress.build>jsmin</openlayers.compress.build>
+		<openlayers.compress.build>closure</openlayers.compress.build>
+		<http.proxyHost />
+		<http.proxyPort>0</http.proxyPort>
 	</properties>
 	<scm>
 		<connection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</connection>
@@ -32,11 +35,15 @@
 				<role>release-manager</role>
 			</roles>
 		</developer>
+		<developer>
+			<id>lschaminee</id>
+		</developer>
 	</developers>
 	<licenses>
 		<license>
-			<name>3-clausule BSD licentie</name>
-			<url>http://www.opensource.org/licenses/bsd-license.php</url>
+			<name>GNU General Public License</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+			<comments>Voor alle delen van pdok preview app</comments>
 			<distribution>manual</distribution>
 		</license>
 		<license>
@@ -104,7 +111,8 @@
 									<maxIdleTime>60000</maxIdleTime>
 								</connector>
 							</connectors>
-							<webAppConfig implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
+							<webAppConfig
+								implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
 								<sessionHandler implementation="org.mortbay.jetty.servlet.SessionHandler">
 									<sessionManager implementation="org.mortbay.jetty.servlet.HashSessionManager">
 										<usingCookies>false</usingCookies>
@@ -158,7 +166,10 @@
 								<configuration>
 									<!-- copy OL files naar source voor debugging -->
 									<target>
-										<copy file="${project.build.directory}/OLcheckout/build/OpenLayers.js" tofile="${basedir}/src/main/webapp/static/OpenLayers/OpenLayers.js" overwrite="true" verbose="true" />
+										<copy
+											file="${project.build.directory}/OLcheckout/build/OpenLayers.js"
+											tofile="${basedir}/src/main/webapp/static/OpenLayers/OpenLayers.js"
+											overwrite="true" verbose="true" />
 									</target>
 								</configuration>
 							</execution>
@@ -293,7 +304,31 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.6</version>
+
 				<executions>
+					<execution>
+						<id>getClosure</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<!-- use eg. mvn -Dhttp.proxyHost=wpad.agro.nl -Dhttp.proxyPort=8080 
+									install -->
+								<setproxy proxyhost="${http.proxyHost}" proxyport="${http.proxyPort}" />
+								<get
+									src="http://closure-compiler.googlecode.com/files/compiler-latest.zip"
+									dest="${project.build.directory}" usetimestamp="true"
+									skipexisting="true" />
+								<unzip src="${project.build.directory}/compiler-latest.zip"
+									dest="${project.build.directory}" />
+								<copy file="${project.build.directory}/compiler.jar"
+									tofile="${project.build.directory}/OLcheckout/tools/closure-compiler.jar"
+									overwrite="true" verbose="true" />
+							</target>
+						</configuration>
+					</execution>
 					<execution>
 						<id>copyOpenLayers</id>
 						<phase>prepare-package</phase>
@@ -303,8 +338,19 @@
 						<configuration>
 							<!-- copy files voor de war -->
 							<target>
-								<copy file="${basedir}/src/main/webapp/static/js/settings.js" tofile="${project.build.directory}/pdokpreviewapp/static/js/settings.js" overwrite="true" verbose="true" />
-								<copy file="${project.build.directory}/OLcheckout/build/OpenLayers.js" tofile="${project.build.directory}/pdokpreviewapp/static/OpenLayers/OpenLayers.js" overwrite="true" verbose="true" />
+								<copy file="${basedir}/src/main/webapp/static/js/settings.js"
+									tofile="${project.build.directory}/pdokpreviewapp/static/js/settings.js"
+									overwrite="true" verbose="true" />
+								<copy
+									file="${project.build.directory}/OLcheckout/build/OpenLayers.js"
+									tofile="${project.build.directory}/pdokpreviewapp/static/OpenLayers/OpenLayers.js"
+									overwrite="true" verbose="true" />
+								<copy todir="${project.build.directory}/pdokpreviewapp"
+									overwrite="true" verbose="true">
+									<fileset dir="${basedir}">
+										<include name="*.txt" />
+									</fileset>
+								</copy>
 							</target>
 						</configuration>
 					</execution>
@@ -326,6 +372,8 @@
 						</manifest>
 						<manifestEntries>
 							<Implementation-Build>${project.version}</Implementation-Build>
+							<License>Distributed under the GNU General Public License,
+								version 3</License>
 							<SCM-Revision>${scm.revision}</SCM-Revision>
 							<url>${project.url}</url>
 							<bron>branch: ${scmBranch} dd: ${buildNumber}</bron>
