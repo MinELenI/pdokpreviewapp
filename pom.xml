@@ -4,7 +4,7 @@
 	<groupId>nl.pdok</groupId>
 	<artifactId>pdokpreviewapp</artifactId>
 	<packaging>war</packaging>
-	<version>1.2-SNAPSHOT</version>
+	<version>2.0-SNAPSHOT</version>
 	<name>PDOK services preview applicatie</name>
 	<description>Preview applicatie tbv. PDOK en INSPIRE view services.</description>
 	<url>http://sourceforge.net/p/pdokpreviewapp/home/</url>
@@ -15,15 +15,16 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<site.dir.dev>file://${java.io.tmpdir}/maven-sites/${project.artifactId}</site.dir.dev>
-		<openlayers.checkout.url>scm:svn:http://svn.openlayers.org/trunk/openlayers</openlayers.checkout.url>
+		<!--<openlayers.checkout.url>scm:svn:http://svn.openlayers.org/tags/openlayers/release-2.11/</openlayers.checkout.url>-->
+		<openlayers.checkout.url>scm:git:https://github.com/openlayers/openlayers.git</openlayers.checkout.url>
 		<openlayers.compress.build>closure</openlayers.compress.build>
 		<http.proxyHost />
 		<http.proxyPort>0</http.proxyPort>
 	</properties>
 	<scm>
-		<connection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</connection>
-		<developerConnection>scm:svn:https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</developerConnection>
-		<url>https://svn.code.sf.net/p/pdokpreviewapp/code/trunk</url>
+		<connection>scm:git:git@github.com:git://github.com/MinELenI/pdokpreviewapp.git</connection>
+		<developerConnection>scm:git:git@github.com:git@github.com:MinELenI/pdokpreviewapp.git</developerConnection>
+		<url>https://github.com/MinELenI/pdokpreviewapp/tree/master/pdokpreviewapp</url>
 	</scm>
 	<developers>
 		<developer>
@@ -36,7 +37,7 @@
 			</roles>
 		</developer>
 		<developer>
-			<id>lschaminee</id>
+			<id>luuks</id>
 		</developer>
 	</developers>
 	<licenses>
@@ -55,7 +56,7 @@
 		<license>
 			<name>The New BSD Licence</name>
 			<url>http://svn.geoext.org/core/trunk/geoext/license.txt</url>
-			<comments>Voor alle delen van GeoExt</comments>
+			<comments>For any parts of GeoExt</comments>
 			<distribution>manual</distribution>
 		</license>
 		<license>
@@ -66,8 +67,8 @@
 		</license>
 	</licenses>
 	<ciManagement>
-		<system>CruiseControl</system>
-		<url>http://dbr0425s.dbr.agro.nl:8080/dashboard/tab/build/detail/${project.artifactId}</url>
+		<system>Jenkins</system>
+		<url>http://gisdemo.agro.nl/jenkins</url>
 	</ciManagement>
 	<distributionManagement>
 		<repository>
@@ -83,8 +84,8 @@
 		</site>
 	</distributionManagement>
 	<organization>
-		<name>PDOK development team</name>
-		<url>http://geodata.nationaalgeoregister.nl/</url>
+		<name>Ministerie van Economische Zaken, Landbouw en Innovatie</name>
+		<url>https://github.com/MinELenI</url>
 	</organization>
 	<profiles>
 		<profile>
@@ -155,7 +156,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.6</version>
+						<version>1.7</version>
 						<executions>
 							<execution>
 								<id>copyOpenLayers</id>
@@ -188,6 +189,7 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<!--
 		<extensions>
 			<extension>
 				<groupId>org.jvnet.wagon-svn</groupId>
@@ -195,6 +197,7 @@
 				<version>1.9</version>
 			</extension>
 		</extensions>
+		-->
 		<finalName>${project.artifactId}</finalName>
 		<defaultGoal>package</defaultGoal>
 		<plugins>
@@ -237,7 +240,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-scm-plugin</artifactId>
-				<version>1.5</version>
+				<version>1.6</version>
 				<executions>
 					<execution>
 						<id>getOpenLayers</id>
@@ -255,7 +258,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2</version>
+				<version>1.2.1</version>
 				<executions>
 					<execution>
 						<!-- single file openlayers build -->
@@ -303,8 +306,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.6</version>
-
+				<version>1.7</version>
 				<executions>
 					<execution>
 						<id>getClosure</id>
