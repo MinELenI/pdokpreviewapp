@@ -261,6 +261,9 @@
 						<configuration>
 							<connectionUrl>${openlayers.checkout.url}</connectionUrl>
 							<checkoutDirectory>${project.build.directory}/OLcheckout</checkoutDirectory>
+							<scmVersion>release-2.11</scmVersion>
+							<scmVersionType>tag</scmVersionType>
+							<tag>release-2.11</tag>
 						</configuration>
 					</execution>
 				</executions>
@@ -351,13 +354,13 @@
 							<!-- copy files voor de war -->
 							<target>
 								<copy file="${basedir}/src/main/webapp/static/js/settings.js"
-									tofile="${project.build.directory}/pdokpreviewapp/static/js/settings.js"
+									tofile="${project.build.directory}/${project.build.finalName}/static/js/settings.js"
 									overwrite="true" verbose="true" />
 								<copy
 									file="${project.build.directory}/OLcheckout/build/OpenLayers.js"
-									tofile="${project.build.directory}/pdokpreviewapp/static/OpenLayers/OpenLayers.js"
+									tofile="${project.build.directory}/${project.build.finalName}/static/OpenLayers/OpenLayers.js"
 									overwrite="true" verbose="true" />
-								<copy todir="${project.build.directory}/pdokpreviewapp"
+								<copy todir="${project.build.directory}/${project.build.finalName}"
 									overwrite="true" verbose="true">
 									<fileset dir="${basedir}">
 										<include name="*.txt" />
