@@ -23,3 +23,24 @@ naam=Gazetteer; url=http://acceptatie.geodata.nationaalgeoregister.nl/geocoder/G
 naam=Ahn25m; url=http://acceptatie.geodata.nationaalgeoregister.nl/ahn25m/ows; type=wms; layers=bladindex,puntdichtheidgebieden,stadspolygonen,vlieglijnen,ahn25m
 naam=Digitaal Topografisch Bestand; url=http://acceptatie.geodata.nationaalgeoregister.nl/digitaaltopografischbestand/ows; type=wms; layers=dtb_lin,dtb_reg,dtb_sym
 /* geen lege regels hierna */
+// pseudo json. 1 service per regel; het resultaat wordt op naam gesorteerd; format: naam=  ;url=  ;layers=  ;type=  ;geometry=  ;maxres=  ;
+//WMS
+naam=WMS AHN 25m; url=http://geodata.nationaalgeoregister.nl/ahn25m/ows; layers=bladindex,puntdichtheidgebieden,stadspolygonen,vlieglijnen,ahn25m; type=wms
+naam=WMS Beschermde natuurmonumenten;url=http://geodata.nationaalgeoregister.nl/beschermdenatuurmonumenten/ows; layers=beschermdenatuurmonumenten; type=wms
+naam=WMS Bestuurlijke grenzen; url=http://geodata.nationaalgeoregister.nl/bestuurlijkegrenzen/ows;layers=top10nlprovinciegrenzen,top10nlnationalegrenzen,gemeenten,wijken,buurten; type=wms
+naam=WMS Digitaal Topografisch Bestand; url=http://geodata.nationaalgeoregister.nl/digitaaltopografischbestand/ows; layers=punten,lijnen,vlakken; type=wms
+naam=WMS Nationale parken; url=http://geodata.nationaalgeoregister.nl/nationaleparken/ows;layers=nationaleparken; type=wms
+naam=WMS Natura 2000; url=http://geodata.nationaalgeoregister.nl/natura2000/ows; layers=natura2000; type=wms
+naam=WMS NHI; url=http://geodata.nationaalgeoregister.nl/nhi/ows; layers=dmlinks,dmnodes; type=wms
+naam=WMS NOK 2010; url=http://geodata.nationaalgeoregister.nl/nok2010/ows; layers=bblbuitenbegrenzing,ehs,rods; type=wms
+naam=WMS NWB-Wegen; url=http://geodata.nationaalgeoregister.nl/nwbwegen/ows; layers=wegvakken,hectopunten; type=wms
+naam=WMS NWB-Vaarwegen; url=http://geodata.nationaalgeoregister.nl/nwbvaarwegen/ows; layers=vaarwegvakken,kmmarkeringen; type=wms
+naam=WMS NWB-Spoorwegen; url=http://geodata.nationaalgeoregister.nl/nwbspoorwegen/ows; layers=hectopunten,overgangen,oversteken,spoorvakken,treinstations; type=wms
+naam=WMS Top10NL; url=http://geodata.nationaalgeoregister.nl/top10nl/ows; layers=functioneelgebied_labels,wegdeelvlakken,waterdeel_vlakken,geo_labels,inrichtingselement_punten,gebouwen,spoorbaandeel_lijnen,inrichtingselementlijnen,waterdeellijnen,terreinen; type=wms
+naam=WMS VIN; url=http://geodata.nationaalgeoregister.nl/vin/ows; layers=bevaarbaarheid; type=wms
+naam=WMS Wetlands; url=http://geodata.nationaalgeoregister.nl/wetlands/ows; layers=wetlands; type=wms
+naam=WMS WegGeg; url=http://geodata.nationaalgeoregister.nl/weggeg/ows; layers=weggegmaximumsnelheden,weggegaantalrijbanen; type=wms
+naam=WMS Asbest scholen kaart; url=http://geodata.nationaalgeoregister.nl/asbestscholenkaart/ows; layers=asbestscholenkaart; type=wms
+naam=WMS INSPIRE adressen; url=http://geodata.nationaalgeoregister.nl/inspireadressen/ows; layers=inspireadressen; type=wms
+//naam=WMTS Kadastrale kaart; url=http://geodata.nationaalgeoregister.nl/tiles/service/wmts/kadastralekaart; layers=kadastralekaart; type=wmts
+naam=WMS Kadastrale kaart; url=http://geodata.nationaalgeoregister.nl/kadastralekaart/ows; layers=annotatie,grens,gebouw,perceel,perceelnr; type=wms

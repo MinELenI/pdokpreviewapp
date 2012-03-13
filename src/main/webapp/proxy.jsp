@@ -46,7 +46,7 @@
             con.setRequestProperty("Content-Type",
                     request.getContentType());
         }
-        con.setRequestProperty("Referer", request.getHeader("Referer"));
+        con.setRequestProperty("Referer", "/");
         int clength = request.getContentLength();
         if (clength > 0) {
             con.setDoInput(true);
