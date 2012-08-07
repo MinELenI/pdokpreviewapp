@@ -44,7 +44,8 @@ function addWMS(conf) {
 					conf.url, {
 						layers : conf.layers[ly],
 						transparent : true,
-						format : 'image/png'
+						format : 'image/png',
+						version: '1.3.0'
 					}, opts);
 			mapPanel.map.addLayer(lyr);
 		}
@@ -53,7 +54,8 @@ function addWMS(conf) {
 		lyr = new OpenLayers.Layer.WMS(conf.naam, conf.url, {
 			layers : conf.layers,
 			transparent : true,
-			format : 'image/png'
+			format : 'image/png',
+			version: '1.3.0'
 		}, opts);
 		mapPanel.map.addLayer(lyr);
 	}
